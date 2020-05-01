@@ -35,6 +35,18 @@
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+.reveal-if-active {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden !important;
+}
+
+input[type="checkbox"]:checked ~ .reveal-if-active {
+    opacity: 1;
+    max-height: 100px;
+    overflow: visible;
+}
+
 *,
 *::before,
 *::after {
