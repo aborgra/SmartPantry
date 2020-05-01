@@ -10,6 +10,7 @@ namespace SmartPantry.Models.ViewModels
     {
         public string FoodItemName { get; set; }
         public int Quantity { get; set; }
+        public bool IsThreshold { get; set; }
         public int Threshold { get; set; }
         public List<SelectListItem> CategoryOptions { get; set; }
         public int CategoryId { get; set; }
