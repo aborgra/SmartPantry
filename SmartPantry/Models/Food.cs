@@ -12,6 +12,8 @@ namespace SmartPantry.Models
         public int Quantity { get; set; }
         public int Threshold { get; set; }
         public int PantryId { get; set; }
+        public Pantry Pantry { get; set; }
         public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }
