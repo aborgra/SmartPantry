@@ -177,21 +177,24 @@ namespace SmartPantry.Controllers
         // GET: Pantry/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            var food = await _context.Foods.Include(f => f.Category).FirstOrDefaultAsync(f => f.Id == id);
+
+            return View(food);
         }
 
         // POST: Pantry/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, Food food)
         {
             try
             {
-                // TODO: Add delete logic here
+                _context.Foods.Remove(food);
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
