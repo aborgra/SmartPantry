@@ -154,7 +154,27 @@ namespace SmartPantry.Controllers
         // GET: Pantry/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var food = await _context.Foods.Include(f => f.Category)
+                .FirstOrDefaultAsync(f => f.Id == id);
+
+            var categories = await _context.Categories.Select(c => new SelectListItem()
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            }).ToListAsync();
+
+            var viewModel = new FoodItemFormViewModel()
+            {
+                FoodItemName = food.Name,
+                Quantity = food.Quantity,
+                CategoryOptions = categories,
+                Threshold = food.Threshold,
+                FoodId = food.Id,
+                PantryId = food.PantryId,
+                CategoryId = food.CategoryId
+            };
+
+            return View(viewModel);
         }
 
         // POST: Pantry/Edit/5
