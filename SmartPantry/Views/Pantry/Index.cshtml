@@ -37,9 +37,22 @@
                 @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-                @Html.ActionLink("Up", "QuantityUp", new { id = item.Id }, new { @class = "btn btn-link" }) |
-                @Html.ActionLink("Down", "QuantityDown", new { id = item.Id }, new { @class = "btn btn-link" }) |
+                <div class="quantityButtonContainer">
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                    @using (Html.BeginForm("QuantityUp", "Pantry"))
+                    {
+                        <div class="likeButton">
+                            <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                            <input type="submit" value="Up" class="btn btn-primary" />
+                        </div>
+                    }@using (Html.BeginForm("QuantityDown", "Pantry"))
+                    {
+                        <div class="likeButton">
+                            <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                            <input type="submit" value="Down" class="btn btn-primary" />
+                        </div>
+                    }
+                </div>
             </td>
         </tr>
 }
