@@ -5,10 +5,14 @@
 }
 
 <h1>My Pantry</h1>
-
-<p>
+<div class="indexOptionsContainer">
     <a asp-action="Create">Add Item</a>
-</p>
+    <form asp-controller="Pantry" asp-action="Index" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search Item" name="searchString">
+        <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <a asp-action="Index"> Show All</a>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -18,7 +22,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -29,6 +35,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
