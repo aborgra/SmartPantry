@@ -452,7 +452,7 @@ namespace SmartPantry.Migrations
                     b.HasOne("SmartPantry.Models.Pantry", "Pantry")
                         .WithMany()
                         .HasForeignKey("PantryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

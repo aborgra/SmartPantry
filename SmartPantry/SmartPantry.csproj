@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-SmartPantry-C8FDEB36-ACF4-4F9C-85C5-6D77771A73EA</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20200502164936_AddFoodBool.cs" />
+    <Compile Remove="Migrations\20200502164936_AddFoodBool.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />

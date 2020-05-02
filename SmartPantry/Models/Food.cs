@@ -24,7 +24,11 @@ namespace SmartPantry.Models
         public int Threshold { get; set; }
         public int PantryId { get; set; }
         public Pantry Pantry { get; set; }
+        [Display(Name = "Category")]
+
         public int CategoryId { get; set; }
+        [Display(Name = "Category")]
+
         public Category Category { get; set; }
     }
 }

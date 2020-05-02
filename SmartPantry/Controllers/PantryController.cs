@@ -36,46 +36,46 @@ namespace SmartPantry.Controllers
                 .OrderBy(f => f.CategoryId)
                 .ToListAsync();
 
-            switch (category)
-            {
-                case 1:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 1).ToList();
-                    break;
-                case 2:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 2).ToList();
-                    break;
-                case 3:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 3).ToList();
-                    break;
-                case 4:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 4).ToList();
-                    break;
-                case 5:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 5).ToList();
-                    break;
-                case 6:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 6).ToList();
-                    break;
-                case 7:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 7).ToList();
-                    break;
-                case 8:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 8).ToList();
-                    break;
-                case 9:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 9).ToList();
-                    break;
-                case 10:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 10).ToList();
-                    break;
-                case 11:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 11).ToList();
-                    break;
-                case 12:
-                    foodItems = foodItems.Where(fi => fi.CategoryId == 12).ToList();
-                    break;
+            //switch (category)
+            //{
+            //    case 1:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 1).ToList();
+            //        break;
+            //    case 2:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 2).ToList();
+            //        break;
+            //    case 3:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 3).ToList();
+            //        break;
+            //    case 4:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 4).ToList();
+            //        break;
+            //    case 5:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 5).ToList();
+            //        break;
+            //    case 6:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 6).ToList();
+            //        break;
+            //    case 7:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 7).ToList();
+            //        break;
+            //    case 8:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 8).ToList();
+            //        break;
+            //    case 9:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 9).ToList();
+            //        break;
+            //    case 10:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 10).ToList();
+            //        break;
+            //    case 11:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 11).ToList();
+            //        break;
+            //    case 12:
+            //        foodItems = foodItems.Where(fi => fi.CategoryId == 12).ToList();
+            //        break;
 
-            }
+            //}
 
             if (searchString != null)
             {
@@ -92,7 +92,17 @@ namespace SmartPantry.Controllers
         // GET: Pantry/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            return View();
+            var viewModel = new FoodItemFormViewModel();
+            var food = await _context.Foods.Include(f => f.Category)
+                .FirstOrDefaultAsync(f => f.Id == id);
+            var user = await GetUserAsync();
+            viewModel.FoodId = food.Id;
+            viewModel.Category = food.Category;
+            viewModel.FoodItemName = food.Name;
+            viewModel.PantryId = food.PantryId;
+            viewModel.Quantity = food.Quantity;
+            viewModel.Threshold = food.Threshold;
+            return View(viewModel);
         }
 
         // GET: Pantry/Create
@@ -126,7 +136,9 @@ namespace SmartPantry.Controllers
                     PantryId = pantryId,
                     Name = foodItem.FoodItemName,
                     CategoryId = foodItem.CategoryId,
-                    Quantity = foodItem.Quantity
+                    Quantity = foodItem.Quantity,
+                    Threshold = foodItem.Threshold,
+                    //IsThreshold = foodItem.IsThreshold
                 };
                 _context.Foods.Add(food);
                 await _context.SaveChangesAsync();

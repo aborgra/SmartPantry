@@ -1,0 +1,41 @@
+﻿@model SmartPantry.Models.ViewModels.FoodItemFormViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<br/>
+
+<div>
+    <h4> @Html.DisplayFor(model => model.FoodItemName)</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        @if(Model.Threshold > 0)
+        {
+        <dt class = "col-sm-2">
+            Low Quantity Alert Threshold
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Threshold)
+        </dd>
+        }
+        <dt class = "col-sm-2">
+            Category
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FoodId }) |
+    @Html.ActionLink("Delete", "Delete", new {  id=Model.FoodId }) | 
+
+    <a asp-action="Index">Back to List</a>
+</div>
