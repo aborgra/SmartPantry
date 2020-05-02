@@ -26,13 +26,14 @@ namespace SmartPantry.Controllers
         }
 
         // GET: Pantry
-        public async Task<ActionResult> Index(int category)
+        public async Task<ActionResult> Index(int category, string searchString)
         {
             var user = await GetUserAsync();
             var foodItems = await _context.Foods
                 .Include(f => f.Pantry)
                 .Include(c => c.Category)
                 .Where(f => f.PantryId == user.PantryId)
+                .OrderBy(f => f.CategoryId)
                 .ToListAsync();
 
             switch (category)
@@ -75,6 +76,16 @@ namespace SmartPantry.Controllers
                     break;
 
             }
+
+            if (searchString != null)
+            {
+                foodItems = await _context.Foods
+                      .Where(f => f.Name.Contains(searchString) && f.PantryId == user.PantryId || f.Category.Name.Contains(searchString) && f.PantryId == user.PantryId)
+                      .Include(f => f.Category)
+                       .ToListAsync();
+                return View(foodItems);
+            }
+
             return View(foodItems);
         }
 
