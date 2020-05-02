@@ -229,6 +229,54 @@ namespace SmartPantry.Controllers
             }
         }
 
+        // POST: Pantry/QuantityUp/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> QuantityUp(int id)
+        {
+            try
+            {
+                var food = await _context.Foods.Include(f => f.Category)
+                               .FirstOrDefaultAsync(f => f.Id == id);
+                
+                food.Quantity = food.Quantity + 1;
+
+                _context.Foods.Update(food);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        // POST: Pantry/QuantityDown/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> QuantityDown(int id)
+        {
+            try
+            {
+                var food = await _context.Foods.Include(f => f.Category)
+                               .FirstOrDefaultAsync(f => f.Id == id);
+                if(food.Quantity > 0)
+                {
+                food.Quantity = food.Quantity - 1;
+                }
+
+                _context.Foods.Update(food);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         private async Task<ApplicationUser> GetUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
 
     }
