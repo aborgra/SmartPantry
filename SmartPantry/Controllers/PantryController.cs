@@ -180,11 +180,20 @@ namespace SmartPantry.Controllers
         // POST: Pantry/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, FoodItemFormViewModel foodItem)
         {
             try
             {
-                // TODO: Add update logic here
+                var food = await _context.Foods.Include(f => f.Category)
+                               .FirstOrDefaultAsync(f => f.Id == id);
+
+                food.Name = foodItem.FoodItemName;
+                food.Quantity = foodItem.Quantity;
+                food.Threshold = foodItem.Threshold;
+                food.CategoryId = foodItem.CategoryId;
+
+                _context.Foods.Update(food);
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
