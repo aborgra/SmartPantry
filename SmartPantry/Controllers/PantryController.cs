@@ -26,7 +26,7 @@ namespace SmartPantry.Controllers
         }
 
         // GET: Pantry
-        public async Task<ActionResult> Index(int category, string searchString)
+        public async Task<ActionResult> Index(string searchString)
         {
             var user = await GetUserAsync();
             var foodItems = await _context.Foods
@@ -36,46 +36,6 @@ namespace SmartPantry.Controllers
                 .OrderBy(f => f.CategoryId)
                 .ToListAsync();
 
-            //switch (category)
-            //{
-            //    case 1:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 1).ToList();
-            //        break;
-            //    case 2:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 2).ToList();
-            //        break;
-            //    case 3:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 3).ToList();
-            //        break;
-            //    case 4:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 4).ToList();
-            //        break;
-            //    case 5:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 5).ToList();
-            //        break;
-            //    case 6:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 6).ToList();
-            //        break;
-            //    case 7:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 7).ToList();
-            //        break;
-            //    case 8:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 8).ToList();
-            //        break;
-            //    case 9:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 9).ToList();
-            //        break;
-            //    case 10:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 10).ToList();
-            //        break;
-            //    case 11:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 11).ToList();
-            //        break;
-            //    case 12:
-            //        foodItems = foodItems.Where(fi => fi.CategoryId == 12).ToList();
-            //        break;
-
-            //}
 
             if (searchString != null)
             {

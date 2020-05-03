@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SmartPantry.Data;
 using SmartPantry.Models;
 
@@ -21,19 +22,37 @@ namespace SmartPantry.Controllers
             _userManager = userManager;
         }
         // GET: GroceryList
-        public ActionResult Index()
+        public async Task<ActionResult> Index(string searchString)
         {
-            return View();
+            var user = await GetUserAsync();
+            var foodItems = await _context.GroceryLists
+                .Include(gl => gl.Pantry)
+                .Include(c => c.Category)
+                .Where(gl => gl.PantryId == user.PantryId)
+                .OrderBy(gl => gl.CategoryId)
+                .ToListAsync();
+
+            if (searchString != null)
+            {
+                foodItems = await _context.GroceryLists
+                      .Where(gl => gl.Food.Name.Contains(searchString) && gl.PantryId == user.PantryId || gl.Category.Name.Contains(searchString) && gl.PantryId == user.PantryId)
+                      .Include(gl => gl.Category)
+                       .ToListAsync();
+                return View(foodItems);
+            }
+
+            return View(foodItems);
         }
+    
 
         // GET: GroceryList/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
             return View();
         }
 
         // GET: GroceryList/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             return View();
         }
@@ -41,7 +60,7 @@ namespace SmartPantry.Controllers
         // POST: GroceryList/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(IFormCollection collection)
         {
             try
             {
@@ -56,7 +75,7 @@ namespace SmartPantry.Controllers
         }
 
         // GET: GroceryList/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
             return View();
         }
@@ -64,7 +83,7 @@ namespace SmartPantry.Controllers
         // POST: GroceryList/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, IFormCollection collection)
         {
             try
             {
@@ -79,7 +98,7 @@ namespace SmartPantry.Controllers
         }
 
         // GET: GroceryList/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             return View();
         }
@@ -87,7 +106,7 @@ namespace SmartPantry.Controllers
         // POST: GroceryList/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
@@ -100,5 +119,8 @@ namespace SmartPantry.Controllers
                 return View();
             }
         }
+
+        private async Task<ApplicationUser> GetUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
+
     }
 }
