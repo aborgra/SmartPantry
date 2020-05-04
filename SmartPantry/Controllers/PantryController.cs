@@ -40,7 +40,7 @@ namespace SmartPantry.Controllers
             if (searchString != null)
             {
                 foodItems = await _context.Foods
-                      .Where(f => f.Name.Contains(searchString) && f.PantryId == user.PantryId && f.IsPurchased == true || f.Category.Name.Contains(searchString) && f.PantryId == user.PantryId && f.IsPurchased == true)
+                      .Where(f => f.Name.Contains(searchString) && f.PantryId == user.PantryId || f.Category.Name.Contains(searchString) && f.PantryId == user.PantryId)
                       .Include(f => f.Category)
                        .ToListAsync();
                 return View(foodItems);
@@ -98,8 +98,7 @@ namespace SmartPantry.Controllers
                     CategoryId = foodItem.CategoryId,
                     Quantity = foodItem.Quantity,
                     Threshold = foodItem.Threshold,
-                    IsThreshold = foodItem.IsThreshold,
-                    IsPurchased = true
+                    IsThreshold = foodItem.IsThreshold
                 };
                 _context.Foods.Add(food);
                 await _context.SaveChangesAsync();

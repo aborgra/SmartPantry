@@ -87,10 +87,16 @@ namespace SmartPantry.Areas.Identity.Pages.Account
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email,
                     Name = Input.Name };
                 var pantry = new Pantry();
-               
+
                 _context.Pantries.Add(pantry);
+
                 await _context.SaveChangesAsync();
                 user.PantryId = pantry.Id;
+                var groceryList = new GroceryList()
+                {
+                    PantryId = pantry.Id
+                };
+                _context.GroceryLists.Add(groceryList);
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

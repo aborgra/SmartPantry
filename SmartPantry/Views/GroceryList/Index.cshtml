@@ -17,6 +17,9 @@
     <thead>
         <tr>
             <th>
+            Purchase
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Food.Name)
             </th>
             <th>
@@ -30,7 +33,10 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
+            <td class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="isPurchased" checked="">
+                </td>
                 <td>
                     @Html.ActionLink(item.Food.Name, "Details", new { id = item.Id }, new { @class = "btn btn-link" })
                 </td>
@@ -42,20 +48,20 @@
                         @Html.DisplayFor(modelItem => item.Quantity)
                         @using (Html.BeginForm("QuantityUp", "Pantry"))
                         {
-                            <div class="likeButton">
+                            <div class="quantityAdjustButton">
                                 <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
                                 <input type="submit" value="Up" class="btn btn-primary" />
                             </div>
                         }@using (Html.BeginForm("QuantityDown", "Pantry"))
                         {
-                            <div class="likeButton">
+                            <div class="quantityAdjustButton">
                                 <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
                                 <input type="submit" value="Down" class="btn btn-primary" />
                             </div>
                         }
                     </div>
                 </td>
-            </tr>
+        </tr>
         }
     </tbody>
 </table>

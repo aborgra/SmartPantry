@@ -29,14 +29,13 @@ namespace SmartPantry.Controllers
             var user = await GetUserAsync();
             var foodItems = await _context.GroceryListFoods
                 .Include(glf => glf.Food)
-                .Where(glf => glf.Food.PantryId == user.PantryId && glf.Food.IsPurchased == false)
+                .Where(glf => glf.Food.PantryId == user.PantryId )
                 .ToListAsync();
 
             if (searchString != null)
             {
                 foodItems = await _context.GroceryListFoods
-                      .Where(gl => gl.Food.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId && gl.Food.IsPurchased == false || gl.Food.Category.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId && gl.Food.IsPurchased == false)
-                      .Include(gl => gl.Food.Category)
+                      .Where(gl => gl.Food.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId || gl.Food.Category.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId)
                        .ToListAsync();
                 return View(foodItems);
             }
@@ -86,10 +85,10 @@ namespace SmartPantry.Controllers
                     CategoryId = foodItem.CategoryId,
                     Quantity = 0,
                     Threshold = foodItem.Threshold,
-                    IsThreshold = foodItem.IsThreshold,
-                    IsPurchased = false
+                    IsThreshold = foodItem.IsThreshold
                 };
                 _context.Foods.Add(food);
+                await _context.SaveChangesAsync();
 
                 var groceryListFoodItem = new GroceryListFood()
                 {
@@ -98,7 +97,6 @@ namespace SmartPantry.Controllers
                     GroceryListId = groceryList.Id
                 };
                 _context.GroceryListFoods.Add(groceryListFoodItem);
-
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
