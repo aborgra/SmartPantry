@@ -34,9 +34,14 @@
         @foreach (var item in Model)
         {
         <tr>
-            <td class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="isPurchased" checked="">
-                </td>
+            <td >
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" asp-action="Purchase" class="custom-control-input" id="@item.Id" name="@item.Id" value="false">
+                        <label class="custom-control-label" name="@item.Id" for="@item.Id"></label>
+                    </div>
+                </div>
+            </td>
                 <td>
                     @Html.ActionLink(item.Food.Name, "Details", new { id = item.Id }, new { @class = "btn btn-link" })
                 </td>
