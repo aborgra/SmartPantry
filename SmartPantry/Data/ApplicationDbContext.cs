@@ -20,6 +20,9 @@ namespace SmartPantry.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Pantry> Pantries { get; set; }
         public DbSet<GroceryList> GroceryLists { get; set; }
+        public DbSet<GroceryListFood> GroceryListFoods { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

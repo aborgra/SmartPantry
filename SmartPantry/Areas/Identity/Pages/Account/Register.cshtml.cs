@@ -88,7 +88,6 @@ namespace SmartPantry.Areas.Identity.Pages.Account
                     Name = Input.Name };
                 var pantry = new Pantry();
                
-
                 _context.Pantries.Add(pantry);
                 await _context.SaveChangesAsync();
                 user.PantryId = pantry.Id;

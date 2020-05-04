@@ -62,23 +62,6 @@ namespace SmartPantry.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Foods",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Quantity = table.Column<int>(nullable: false),
-                    Threshold = table.Column<int>(nullable: false),
-                    PantryId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Foods", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Pantries",
                 columns: table => new
                 {
@@ -197,36 +180,85 @@ namespace SmartPantry.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Foods",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    IsThreshold = table.Column<bool>(nullable: false),
+                    Threshold = table.Column<int>(nullable: false),
+                    PantryId = table.Column<int>(nullable: true),
+                    CategoryId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Foods", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Foods_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Foods_Pantries_PantryId",
+                        column: x => x.PantryId,
+                        principalTable: "Pantries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GroceryLists",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<int>(nullable: false),
-                    PantryId = table.Column<int>(nullable: false),
-                    FoodId = table.Column<int>(nullable: false)
+                    PantryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GroceryLists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GroceryLists_Foods_FoodId",
-                        column: x => x.FoodId,
-                        principalTable: "Foods",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_GroceryLists_Pantries_PantryId",
                         column: x => x.PantryId,
                         principalTable: "Pantries",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroceryListFoods",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GroceryListId = table.Column<int>(nullable: true),
+                    FoodId = table.Column<int>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroceryListFoods", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GroceryListFoods_Foods_FoodId",
+                        column: x => x.FoodId,
+                        principalTable: "Foods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GroceryListFoods_GroceryLists_GroceryListId",
+                        column: x => x.GroceryListId,
+                        principalTable: "GroceryLists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PantryId", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "5bf856b0-ce71-4907-8bd4-0c7c07dfbca1", "admin@admin.com", true, false, null, "Admina Straytor", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", 0, "AQAAAAEAACcQAAAAEAFrT1MkRzaufmi2Fj6pWpGambC3kLKOxGhkxtFZLspEFgtH6W0eaxNffC6mq9/lRA==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
+                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "4718e5d0-e6f5-4a6f-8696-52eb4979c3cb", "admin@admin.com", true, false, null, "Admina Straytor", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", 0, "AQAAAAEAACcQAAAAEL1QRnWbwL2ZS5OQO1pxp3xKw34xf/w0XmEgBuoitRgtEBAxy26wprYZ7HQfk8Y0Eg==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
@@ -287,9 +319,24 @@ namespace SmartPantry.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroceryLists_FoodId",
-                table: "GroceryLists",
+                name: "IX_Foods_CategoryId",
+                table: "Foods",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Foods_PantryId",
+                table: "Foods",
+                column: "PantryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroceryListFoods_FoodId",
+                table: "GroceryListFoods",
                 column: "FoodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroceryListFoods_GroceryListId",
+                table: "GroceryListFoods",
+                column: "GroceryListId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GroceryLists_PantryId",
@@ -315,10 +362,7 @@ namespace SmartPantry.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "GroceryLists");
+                name: "GroceryListFoods");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -328,6 +372,12 @@ namespace SmartPantry.Migrations
 
             migrationBuilder.DropTable(
                 name: "Foods");
+
+            migrationBuilder.DropTable(
+                name: "GroceryLists");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Pantries");
