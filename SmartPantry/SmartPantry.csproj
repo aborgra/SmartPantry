@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200501163004_AddFoodProperties.cs" />
+    <Compile Remove="Migrations\20200501163004_AddFoodProperties.Designer.cs" />
     <Compile Remove="Migrations\20200502164936_AddFoodBool.cs" />
     <Compile Remove="Migrations\20200502164936_AddFoodBool.Designer.cs" />
   </ItemGroup>

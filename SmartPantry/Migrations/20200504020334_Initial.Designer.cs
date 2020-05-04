@@ -10,8 +10,8 @@ using SmartPantry.Data;
 namespace SmartPantry.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200501163004_AddFoodProperties")]
-    partial class AddFoodProperties
+    [Migration("20200504020334_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -231,7 +231,7 @@ namespace SmartPantry.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "17a38f97-c07a-4230-8e96-3f6b085b01d4",
+                            ConcurrencyStamp = "4718e5d0-e6f5-4a6f-8696-52eb4979c3cb",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -239,7 +239,7 @@ namespace SmartPantry.Migrations
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
                             PantryId = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAEJYOrbaNYCdVldyKdZ3SskTLEN8giRb2wJqNdOnsH9U5fjT36LvwVf22tLSzq/2Hkw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL1QRnWbwL2ZS5OQO1pxp3xKw34xf/w0XmEgBuoitRgtEBAxy26wprYZ7HQfk8Y0Eg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -334,10 +334,14 @@ namespace SmartPantry.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsThreshold")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PantryId")
+                    b.Property<int?>("PantryId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -362,10 +366,27 @@ namespace SmartPantry.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FoodId")
+                    b.Property<int?>("PantryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PantryId")
+                    b.HasKey("Id");
+
+                    b.HasIndex("PantryId");
+
+                    b.ToTable("GroceryLists");
+                });
+
+            modelBuilder.Entity("SmartPantry.Models.GroceryListFood", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FoodId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GroceryListId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -375,9 +396,9 @@ namespace SmartPantry.Migrations
 
                     b.HasIndex("FoodId");
 
-                    b.HasIndex("PantryId");
+                    b.HasIndex("GroceryListId");
 
-                    b.ToTable("GroceryLists");
+                    b.ToTable("GroceryListFoods");
                 });
 
             modelBuilder.Entity("SmartPantry.Models.Pantry", b =>
@@ -453,24 +474,25 @@ namespace SmartPantry.Migrations
 
                     b.HasOne("SmartPantry.Models.Pantry", "Pantry")
                         .WithMany()
-                        .HasForeignKey("PantryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("PantryId");
                 });
 
             modelBuilder.Entity("SmartPantry.Models.GroceryList", b =>
                 {
-                    b.HasOne("SmartPantry.Models.Food", "Food")
-                        .WithMany()
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SmartPantry.Models.Pantry", "Pantry")
                         .WithMany()
-                        .HasForeignKey("PantryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PantryId");
+                });
+
+            modelBuilder.Entity("SmartPantry.Models.GroceryListFood", b =>
+                {
+                    b.HasOne("SmartPantry.Models.Food", "Food")
+                        .WithMany()
+                        .HasForeignKey("FoodId");
+
+                    b.HasOne("SmartPantry.Models.GroceryList", "GroceryList")
+                        .WithMany()
+                        .HasForeignKey("GroceryListId");
                 });
 #pragma warning restore 612, 618
         }

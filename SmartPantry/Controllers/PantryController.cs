@@ -59,7 +59,7 @@ namespace SmartPantry.Controllers
             viewModel.FoodId = food.Id;
             viewModel.Category = food.Category;
             viewModel.FoodItemName = food.Name;
-            viewModel.PantryId = food.PantryId;
+            viewModel.PantryId = food.PantryId.Value;
             viewModel.Quantity = food.Quantity;
             viewModel.Threshold = food.Threshold;
             return View(viewModel);
@@ -98,7 +98,7 @@ namespace SmartPantry.Controllers
                     CategoryId = foodItem.CategoryId,
                     Quantity = foodItem.Quantity,
                     Threshold = foodItem.Threshold,
-                    //IsThreshold = foodItem.IsThreshold
+                    IsThreshold = foodItem.IsThreshold
                 };
                 _context.Foods.Add(food);
                 await _context.SaveChangesAsync();
@@ -130,7 +130,7 @@ namespace SmartPantry.Controllers
                 CategoryOptions = categories,
                 Threshold = food.Threshold,
                 FoodId = food.Id,
-                PantryId = food.PantryId,
+                PantryId = food.PantryId.Value,
                 CategoryId = food.CategoryId
             };
 

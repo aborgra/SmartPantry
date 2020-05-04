@@ -25,18 +25,16 @@ namespace SmartPantry.Controllers
         public async Task<ActionResult> Index(string searchString)
         {
             var user = await GetUserAsync();
-            var foodItems = await _context.GroceryLists
-                .Include(gl => gl.Pantry)
-                .Include(c => c.Category)
-                .Where(gl => gl.PantryId == user.PantryId)
-                .OrderBy(gl => gl.CategoryId)
+            var foodItems = await _context.GroceryListFoods
+                .Include(glf => glf.Food)
+                .Where(glf => glf.Food.PantryId == user.PantryId)
                 .ToListAsync();
 
             if (searchString != null)
             {
-                foodItems = await _context.GroceryLists
-                      .Where(gl => gl.Food.Name.Contains(searchString) && gl.PantryId == user.PantryId || gl.Category.Name.Contains(searchString) && gl.PantryId == user.PantryId)
-                      .Include(gl => gl.Category)
+                foodItems = await _context.GroceryListFoods
+                      .Where(gl => gl.Food.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId || gl.Food.Category.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId)
+                      .Include(gl => gl.Food.Category)
                        .ToListAsync();
                 return View(foodItems);
             }

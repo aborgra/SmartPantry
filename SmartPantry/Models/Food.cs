@@ -20,9 +20,9 @@ namespace SmartPantry.Models
         [Required]
         [Display(Name = "Low Quantity Alert Amount")]
 
-
+        public bool IsThreshold { get; set; }
         public int Threshold { get; set; }
-        public int PantryId { get; set; }
+        public int? PantryId { get; set; }
         public Pantry Pantry { get; set; }
         [Display(Name = "Category")]
 
