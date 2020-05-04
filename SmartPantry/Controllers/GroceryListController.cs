@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SmartPantry.Data;
 using SmartPantry.Models;
+using SmartPantry.Models.ViewModels;
 
 namespace SmartPantry.Controllers
 {
@@ -27,13 +29,13 @@ namespace SmartPantry.Controllers
             var user = await GetUserAsync();
             var foodItems = await _context.GroceryListFoods
                 .Include(glf => glf.Food)
-                .Where(glf => glf.Food.PantryId == user.PantryId)
+                .Where(glf => glf.Food.PantryId == user.PantryId && glf.Food.IsPurchased == false)
                 .ToListAsync();
 
             if (searchString != null)
             {
                 foodItems = await _context.GroceryListFoods
-                      .Where(gl => gl.Food.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId || gl.Food.Category.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId)
+                      .Where(gl => gl.Food.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId && gl.Food.IsPurchased == false || gl.Food.Category.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId && gl.Food.IsPurchased == false)
                       .Include(gl => gl.Food.Category)
                        .ToListAsync();
                 return View(foodItems);
@@ -52,21 +54,56 @@ namespace SmartPantry.Controllers
         // GET: GroceryList/Create
         public async Task<ActionResult> Create()
         {
-            return View();
+            var viewModel = new FoodItemFormViewModel();
+
+            var categories = await _context.Categories.Select(c => new SelectListItem()
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            }).ToListAsync();
+
+            viewModel.CategoryOptions = categories;
+
+            return View(viewModel);
         }
 
         // POST: GroceryList/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(IFormCollection collection)
+        public async Task<ActionResult> Create(FoodItemFormViewModel foodItem)
         {
             try
             {
-                // TODO: Add insert logic here
+                var user = await GetUserAsync();
+                var pantryId = user.PantryId;
+                var groceryList = await _context.GroceryLists
+                    .FirstOrDefaultAsync(gl => gl.PantryId == user.PantryId);
+
+                var food = new Food()
+                {
+                    PantryId = pantryId,
+                    Name = foodItem.FoodItemName,
+                    CategoryId = foodItem.CategoryId,
+                    Quantity = 0,
+                    Threshold = foodItem.Threshold,
+                    IsThreshold = foodItem.IsThreshold,
+                    IsPurchased = false
+                };
+                _context.Foods.Add(food);
+
+                var groceryListFoodItem = new GroceryListFood()
+                {
+                    FoodId = food.Id,
+                    Quantity = foodItem.Quantity,
+                    GroceryListId = groceryList.Id
+                };
+                _context.GroceryListFoods.Add(groceryListFoodItem);
+
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

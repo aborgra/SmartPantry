@@ -30,5 +30,6 @@ namespace SmartPantry.Models
         [Display(Name = "Category")]
 
         public Category Category { get; set; }
+        public bool IsPurchased { get; set; }
     }
 }
