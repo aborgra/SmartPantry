@@ -152,6 +152,81 @@ namespace SmartPantry.Controllers
                 return View();
             }
         }
+        // POST: GroceryList/Purchase
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Purchase(int id)
+        {
+            try
+            {
+                var groceryItem = await _context.GroceryListFoods
+                    .FirstOrDefaultAsync(gi => gi.Food.Id == id);
+
+                var food = await _context.Foods
+                     .FirstOrDefaultAsync(f => f.Id == groceryItem.Id);
+
+                food.Quantity = food.Quantity + groceryItem.Quantity;
+
+                _context.Foods.Update(food);
+                _context.GroceryListFoods.Remove(groceryItem);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+        // POST: GroceryList/QuantityUp/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> QuantityUp(int id)
+        {
+            try
+            {
+                var groceryItem = await _context.GroceryListFoods
+                               .FirstOrDefaultAsync(glf => glf.Id == id);
+
+                groceryItem.Quantity = groceryItem.Quantity + 1;
+
+                _context.GroceryListFoods.Update(groceryItem);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        // POST: Pantry/QuantityDown/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> QuantityDown(int id)
+        {
+            try
+            {
+                var groceryItem = await _context.GroceryListFoods
+                              .FirstOrDefaultAsync(glf => glf.Id == id);
+                if (groceryItem.Quantity > 0)
+                {
+                    groceryItem.Quantity = groceryItem.Quantity - 1;
+                }
+
+                _context.GroceryListFoods.Update(groceryItem);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
         private async Task<ApplicationUser> GetUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
 

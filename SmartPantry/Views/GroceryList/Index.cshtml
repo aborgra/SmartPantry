@@ -17,7 +17,7 @@
     <thead>
         <tr>
             <th>
-            Purchase
+            Got It!
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Food.Name)
@@ -34,13 +34,14 @@
         @foreach (var item in Model)
         {
         <tr>
-            <td >
-                <div class="form-group">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" asp-action="Purchase" class="custom-control-input" id="@item.Id" name="@item.Id" value="false">
-                        <label class="custom-control-label" name="@item.Id" for="@item.Id"></label>
+            <td>
+                @using (Html.BeginForm("Purchase", "GroceryList"))
+                {
+                    <div class="purchaseButton">
+                        <input asp-for="@item.Id" type="hidden" value="@item.Id" name="@item.Id" class="form-control" />
+                        <input type="submit" value="Purchased" class="btn btn-primary" />
                     </div>
-                </div>
+                }
             </td>
                 <td>
                     @Html.ActionLink(item.Food.Name, "Details", new { id = item.Id }, new { @class = "btn btn-link" })
@@ -51,13 +52,13 @@
                 <td>
                     <div class="quantityButtonContainer">
                         @Html.DisplayFor(modelItem => item.Quantity)
-                        @using (Html.BeginForm("QuantityUp", "Pantry"))
+                        @using (Html.BeginForm("QuantityUp", "GroceryList"))
                         {
                             <div class="quantityAdjustButton">
                                 <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
                                 <input type="submit" value="Up" class="btn btn-primary" />
                             </div>
-                        }@using (Html.BeginForm("QuantityDown", "Pantry"))
+                        }@using (Html.BeginForm("QuantityDown", "GroceryList"))
                         {
                             <div class="quantityAdjustButton">
                                 <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
