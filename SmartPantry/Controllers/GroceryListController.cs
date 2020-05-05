@@ -107,6 +107,35 @@ namespace SmartPantry.Controllers
             }
         }
 
+        // POST: GroceryList/AddFromPantry
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddFromPantry(Food foodItem)
+        {
+            try
+            {
+                var user = await GetUserAsync();
+                var pantryId = user.PantryId;
+                var groceryList = await _context.GroceryLists
+                    .FirstOrDefaultAsync(gl => gl.PantryId == user.PantryId);
+
+                var groceryListFoodItem = new GroceryListFood()
+                {
+                    FoodId = foodItem.Id,
+                    Quantity = 1,
+                    GroceryListId = groceryList.Id
+                };
+                _context.GroceryListFoods.Add(groceryListFoodItem);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index), "Pantry");
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
         // GET: GroceryList/Edit/5
         public async Task<ActionResult> Edit(int id)
         {

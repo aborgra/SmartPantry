@@ -55,7 +55,7 @@
                 </div>
             </td>
             <td>
-                @using (Html.BeginForm("AddPantryItemToGroceryList", "GroceryList"))
+                @using (Html.BeginForm("AddFromPantry", "GroceryList"))
                 {
                     <div class="likeButton">
                         <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
