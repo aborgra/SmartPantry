@@ -68,13 +68,16 @@
                     </div>
                 </td>
                 <td>
-                    @using (Html.BeginForm("Delete", "GroceryList"))
+                    @*@using (Html.BeginForm("Delete", "GroceryList"))
                     {
                         <div class="purchaseButton">
                             <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
                             <input type="submit" value="X" class="btn btn-primary" />
                         </div>
-                    }
+                    }*@
+                    <a asp-action="Delete" asp-route-id ="@item.Id" title="Delete">
+                        <img src="~/icons/trash.svg"/>
+                    </a>
                 </td>
         </tr>
         }
