@@ -130,20 +130,19 @@ namespace SmartPantry.Controllers
             }
         }
 
-        // GET: GroceryList/Delete/5
-        public async Task<ActionResult> Delete(int id)
-        {
-            return View();
-        }
 
         // POST: GroceryList/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
+                var groceryListItem = await _context.GroceryListFoods
+                    .FirstOrDefaultAsync(glf => glf.Id == id);
+
+                _context.GroceryListFoods.Remove(groceryListItem);
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
