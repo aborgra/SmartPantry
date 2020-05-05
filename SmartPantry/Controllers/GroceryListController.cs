@@ -160,10 +160,10 @@ namespace SmartPantry.Controllers
             try
             {
                 var groceryItem = await _context.GroceryListFoods
-                    .FirstOrDefaultAsync(gi => gi.Food.Id == id);
+                    .FirstOrDefaultAsync(glf => glf.Id == id);
 
                 var food = await _context.Foods
-                     .FirstOrDefaultAsync(f => f.Id == groceryItem.Id);
+                     .FirstOrDefaultAsync(f => f.Id == groceryItem.FoodId);
 
                 food.Quantity = food.Quantity + groceryItem.Quantity;
 
@@ -176,7 +176,7 @@ namespace SmartPantry.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -203,7 +203,7 @@ namespace SmartPantry.Controllers
             }
         }
 
-        // POST: Pantry/QuantityDown/5
+        // POST: GroceryList/QuantityDown/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> QuantityDown(int id)

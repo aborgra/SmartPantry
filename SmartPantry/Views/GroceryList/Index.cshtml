@@ -38,7 +38,7 @@
                 @using (Html.BeginForm("Purchase", "GroceryList"))
                 {
                     <div class="purchaseButton">
-                        <input asp-for="@item.Id" type="hidden" value="@item.Id" name="@item.Id" class="form-control" />
+                        <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
                         <input type="submit" value="Purchased" class="btn btn-primary" />
                     </div>
                 }
