@@ -29,7 +29,13 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
     margin-left: 10px;
 }
 
-.buttonContainer-quantity{
+.optionsGroup{
+    display: flex;
+    flex-direction: row;
+    flex-basis: 75%;
+}
+
+.buttonContainer-quantity {
     display: flex;
     flex-direction: row !important;
 }
@@ -38,6 +44,13 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
     padding-left: 40px;
 }
 
+.indexOptions{
+    margin: 10px;
+}
+.indexOptionsContainer {
+    display: flex;
+    flex-direction: row !important;
+}
 /* Provide sufficient contrast against white background */
 a {
     color: #0366d6;
