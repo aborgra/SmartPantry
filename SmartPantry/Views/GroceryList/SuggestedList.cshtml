@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Item Name
             </th>
             <th>
                 Current Amount in Pantry
@@ -20,7 +20,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.CategoryId)
             </th>
-            <th></th>
+            <th>
+                Add to Grocery List
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -41,7 +43,7 @@
                 {
                     <div class="likeButton">
                         <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                        <input type="submit" value="Add to Grocery List" class="btn btn-primary" />
+                        <input type="image" src="~/icons/check.svg" />
                     </div>
                 }
             </td>

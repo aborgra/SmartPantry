@@ -47,6 +47,9 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
     overflow: visible;
 }
 
+
+
+
 *,
 *::before,
 *::after {

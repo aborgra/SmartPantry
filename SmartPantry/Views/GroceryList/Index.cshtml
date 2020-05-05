@@ -23,7 +23,7 @@
             Got It!
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Food.Name)
+                Item Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Food.Category)
@@ -42,7 +42,7 @@
                 {
                     <div class="purchaseButton">
                         <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                        <input type="submit" value="Purchased" class="btn btn-primary" />
+                        <input type="image" src="~/icons/check.svg" />
                     </div>
                 }
             </td>
@@ -53,23 +53,25 @@
                     @Html.DisplayFor(modelItem => item.Food.Category.Name)
                 </td>
                 <td>
-                    <div class="quantityButtonContainer">
+                    <div id="quantityButtonContainer">
                         @Html.DisplayFor(modelItem => item.Quantity)
-                        @using (Html.BeginForm("QuantityUp", "GroceryList"))
-                        {
-                            <div class="quantityAdjustButton">
-                                <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                                <input type="image" src="~/icons/plus.svg" />
+                        <div class="buttonContainer-quantity">
+                            @using (Html.BeginForm("QuantityUp", "GroceryList"))
+                            {
+                                <div class="quantityAdjustButton">
+                                    <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                                    <input type="image" src="~/icons/plus.svg" />
+                                </div>
+                            }@using (Html.BeginForm("QuantityDown", "GroceryList"))
+                            {
+                                <div class="quantityAdjustButton">
+                                    <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                                    <input type="image" src="~/icons/minus.svg" />
+                                </div>
+                            }
                             </div>
-                        }@using (Html.BeginForm("QuantityDown", "GroceryList"))
-                        {
-                            <div class="quantityAdjustButton">
-                                <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                                <input type="image" src="~/icons/minus.svg" />
-                            </div>
-                        }
-                    </div>
-                </td>
+                        </div>
+</td>
                 <td>
                     @using (Html.BeginForm("Delete", "GroceryList"))
                     {
