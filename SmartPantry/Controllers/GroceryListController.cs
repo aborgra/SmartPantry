@@ -31,6 +31,7 @@ namespace SmartPantry.Controllers
                 .Include(glf => glf.Food)
                 .ThenInclude(f => f.Category)
                 .Where(glf => glf.Food.PantryId == user.PantryId )
+                .OrderBy(glf => glf.Food.CategoryId)
                 .ToListAsync();
 
             if (searchString != null)
