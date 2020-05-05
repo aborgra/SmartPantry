@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartPantry.Data;
 
 namespace SmartPantry.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200504143341_PurchasedProperty")]
+    partial class PurchasedProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,7 +231,7 @@ namespace SmartPantry.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d585d268-0fce-4bd2-978e-eb3cbea991a2",
+                            ConcurrencyStamp = "22b706f6-c5e4-4fea-8e26-bc96c082bd2a",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -237,7 +239,7 @@ namespace SmartPantry.Migrations
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
                             PantryId = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAEKz1LHPCXnkEu3fb65qBFoxeI1bbQC61dR5KsJK3DPo7SSOm8vFIaiXgUnz1CYCneQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOklf4wfLLGN4F0+nwrnif6hJIUFxx0oEvVTCsGaXlYovWYqOs8E7+VNKUYe7hY84A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -331,6 +333,9 @@ namespace SmartPantry.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsPurchased")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsThreshold")
                         .HasColumnType("bit");
