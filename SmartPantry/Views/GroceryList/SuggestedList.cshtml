@@ -26,28 +26,33 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+        @foreach (var item in Model)
+        {
+            <tr>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @using (Html.BeginForm("AddFromSuggestedList", "GroceryList"))
-                {
-                    <div class="likeButton">
-                        <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                        <input type="image" src="~/icons/check.svg" />
-                    </div>
-                }
-            </td>
-        </tr>
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @using (Html.BeginForm("AddFromSuggestedList", "GroceryList"))
+                    {
+                        <div class="likeButton">
+                            <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                            <input type="image" src="~/icons/check.svg" />
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+        
     </tbody>
 </table>
+<div>
+    <a class="btn btn-link" asp-action="Index">Back to Grocery List</a>
+</div>
