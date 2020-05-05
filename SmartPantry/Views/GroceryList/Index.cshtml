@@ -59,13 +59,13 @@
                         {
                             <div class="quantityAdjustButton">
                                 <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                                <input type="submit" value="Up" class="btn btn-primary" />
+                                <input type="image" src="~/icons/plus.svg" />
                             </div>
                         }@using (Html.BeginForm("QuantityDown", "GroceryList"))
                         {
                             <div class="quantityAdjustButton">
                                 <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                                <input type="submit" value="Down" class="btn btn-primary" />
+                                <input type="image" src="~/icons/minus.svg" />
                             </div>
                         }
                     </div>
