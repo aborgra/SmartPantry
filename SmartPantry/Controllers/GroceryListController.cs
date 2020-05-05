@@ -29,7 +29,9 @@ namespace SmartPantry.Controllers
             var user = await GetUserAsync();
             var foodItems = await _context.GroceryListFoods
                 .Include(glf => glf.Food)
+                .ThenInclude(f => f.Category)
                 .Where(glf => glf.Food.PantryId == user.PantryId )
+                .OrderBy(glf => glf.Food.CategoryId)
                 .ToListAsync();
 
             if (searchString != null)

@@ -10,7 +10,7 @@ namespace SmartPantry.Models
     {
         public int Id { get; set; }
         [Required]
-        [Display(Name = "Name of Item")]
+        [Display(Name = "Item Name")]
         public string Name { get; set; }
         [Required]
         [Display(Name = "Quantity")]

@@ -19,15 +19,47 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
     overflow: visible;
 }
 
+#quantityButtonContainer {
+    display: flex !important;
+    flex-direction: row !important;
+    font-size: 17px;
+}
+
+.quantityAdjustButton {
+    margin-left: 10px;
+}
+
+.optionsGroup{
+    display: flex;
+    flex-direction: row;
+    flex-basis: 75%;
+}
+
+.buttonContainer-quantity {
+    display: flex;
+    flex-direction: row !important;
+}
+
+.likeButton {
+    padding-left: 40px;
+}
+
+.indexOptions{
+    margin: 10px;
+}
+.indexOptionsContainer {
+    display: flex;
+    flex-direction: row !important;
+}
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #2c3e50;
+    border-color: #2c3e50;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {

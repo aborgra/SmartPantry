@@ -6,14 +6,20 @@
 <br/>
 <h1>My Grocery List</h1>
 <div class="indexOptionsContainer">
-    <a asp-action="Create">Add Item</a>
+    <div class="optionsGroup">
+        <form class="form-inline my-2 my-lg-0">
+            <button type="button" onclick="location.href='@Url.Action("Create", "GroceryList")'" class="btn btn-primary">Add Item<i class="glyphicon glyphicon-search"></i></button>
+        </form>
+        <form asp-controller="GroceryList" asp-action="SuggestedList" class="form-inline my-2 my-lg-0">
+            <input type="submit" value="Suggested Items" class="btn btn-primary indexOptions" />
+        </form>
+        <form asp-controller="GroceryList" asp-action="Index" class="form-inline my-2 my-lg-0">
+            <input type="submit" value="Show All" class="btn btn-primary indexOptions" />
+        </form>
+    </div>
     <form asp-controller="GroceryList" asp-action="Index" class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="text" placeholder="Search Item" name="searchString">
         <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-    </form>
-    <a asp-action="Index"> Show All</a>
-    <form asp-controller="GroceryList" asp-action="SuggestedList" class="form-inline my-2 my-lg-0">
-        <input type="submit" value="Suggested Items" class="btn btn-primary" />
     </form>
 </div>
 <table class="table">
@@ -23,7 +29,7 @@
             Got It!
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Food.Name)
+                Item Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Food.Category)
@@ -42,7 +48,7 @@
                 {
                     <div class="purchaseButton">
                         <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                        <input type="submit" value="Purchased" class="btn btn-primary" />
+                        <input type="image" src="~/icons/check.svg" />
                     </div>
                 }
             </td>
@@ -53,23 +59,25 @@
                     @Html.DisplayFor(modelItem => item.Food.Category.Name)
                 </td>
                 <td>
-                    <div class="quantityButtonContainer">
+                    <div id="quantityButtonContainer">
                         @Html.DisplayFor(modelItem => item.Quantity)
-                        @using (Html.BeginForm("QuantityUp", "GroceryList"))
-                        {
-                            <div class="quantityAdjustButton">
-                                <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                                <input type="submit" value="Up" class="btn btn-primary" />
+                        <div class="buttonContainer-quantity">
+                            @using (Html.BeginForm("QuantityUp", "GroceryList"))
+                            {
+                                <div class="quantityAdjustButton">
+                                    <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                                    <input type="image" src="~/icons/plus.svg" />
+                                </div>
+                            }@using (Html.BeginForm("QuantityDown", "GroceryList"))
+                            {
+                                <div class="quantityAdjustButton">
+                                    <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                                    <input type="image" src="~/icons/minus.svg" />
+                                </div>
+                            }
                             </div>
-                        }@using (Html.BeginForm("QuantityDown", "GroceryList"))
-                        {
-                            <div class="quantityAdjustButton">
-                                <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                                <input type="submit" value="Down" class="btn btn-primary" />
-                            </div>
-                        }
-                    </div>
-                </td>
+                        </div>
+</td>
                 <td>
                     @using (Html.BeginForm("Delete", "GroceryList"))
                     {
