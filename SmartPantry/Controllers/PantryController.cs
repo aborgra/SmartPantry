@@ -32,7 +32,7 @@ namespace SmartPantry.Controllers
             var foodItems = await _context.Foods
                 .Include(f => f.Pantry)
                 .Include(c => c.Category)
-                .Where(f => f.PantryId == user.PantryId)
+                .Where(f => f.PantryId == user.PantryId && f.Quantity > 0)
                 .OrderBy(f => f.CategoryId)
                 .ToListAsync();
 
