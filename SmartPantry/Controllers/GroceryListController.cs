@@ -135,8 +135,41 @@ namespace SmartPantry.Controllers
                 return View();
             }
         }
+        public async Task<ActionResult> SuggestedList()
+        {
+            var user = await GetUserAsync();
+            var foodItems = await _context.Foods
+                .Include(f => f.Category)
+                .Where(f => f.PantryId == user.PantryId && f.Quantity <= f.Threshold)
+                .ToListAsync();
 
-        
+            var groceryListFoodItems = await _context.GroceryListFoods
+                .Include(glf => glf.GroceryList)
+                .Where(glf => glf.GroceryList.PantryId == user.PantryId)
+                .ToListAsync();
+
+            var suggestedFoodItems = new List<Food>();
+            
+            foreach(var food in foodItems)
+            {
+                var exists = false;
+                foreach(var groceryFoodItem in groceryListFoodItems)
+                {
+                    if(groceryFoodItem.FoodId == food.Id)
+                    {
+                        exists = true;
+                    }
+                }
+                if(exists == false)
+                {
+                    suggestedFoodItems.Add(food);
+                }
+            };
+              
+            return View(suggestedFoodItems.Distinct());
+        }
+
+
         // POST: GroceryList/AddFromSuggestedList
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -165,7 +198,7 @@ namespace SmartPantry.Controllers
                 _context.GroceryListFoods.Add(groceryListFoodItem);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index), "Pantry");
+                return RedirectToAction(nameof(SuggestedList));
             }
             catch (Exception ex)
             {
@@ -173,17 +206,7 @@ namespace SmartPantry.Controllers
             }
         }
 
-        public async Task<ActionResult> SuggestedList()
-        {
-            var user = await GetUserAsync();
-            var foodItems = await _context.Foods
-                .Include(f => f.Category)
-                .Where(f => f.PantryId == user.PantryId && f.Quantity <= f.Threshold)
-                .ToListAsync();
-
-            return View(foodItems);
-        }
-
+       
 
         // GET: GroceryList/Edit/5
         public async Task<ActionResult> Edit(int id)
