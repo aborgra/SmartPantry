@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SmartPantry.Models.Food>
+
+@{
+    ViewData["Title"] = "SuggestedList";
+}
+
+<br/>
+<h4>Suggested Items</h4>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                Current Amount in Pantry
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @using (Html.BeginForm("AddFromSuggestedList", "GroceryList"))
+                {
+                    <div class="likeButton">
+                        <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                        <input type="submit" value="Add to Grocery List" class="btn btn-primary" />
+                    </div>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -135,6 +135,78 @@ namespace SmartPantry.Controllers
                 return View();
             }
         }
+        public async Task<ActionResult> SuggestedList()
+        {
+            var user = await GetUserAsync();
+            var foodItems = await _context.Foods
+                .Include(f => f.Category)
+                .Where(f => f.PantryId == user.PantryId && f.Quantity <= f.Threshold)
+                .ToListAsync();
+
+            var groceryListFoodItems = await _context.GroceryListFoods
+                .Include(glf => glf.GroceryList)
+                .Where(glf => glf.GroceryList.PantryId == user.PantryId)
+                .ToListAsync();
+
+            var suggestedFoodItems = new List<Food>();
+            
+            foreach(var food in foodItems)
+            {
+                var exists = false;
+                foreach(var groceryFoodItem in groceryListFoodItems)
+                {
+                    if(groceryFoodItem.FoodId == food.Id)
+                    {
+                        exists = true;
+                    }
+                }
+                if(exists == false)
+                {
+                    suggestedFoodItems.Add(food);
+                }
+            };
+              
+            return View(suggestedFoodItems.Distinct());
+        }
+
+
+        // POST: GroceryList/AddFromSuggestedList
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddFromSuggestedList(Food foodItem)
+        {
+            try
+            {
+                var user = await GetUserAsync();
+                var pantryId = user.PantryId;
+                var groceryList = await _context.GroceryLists
+                    .FirstOrDefaultAsync(gl => gl.PantryId == user.PantryId);
+                var quantityNeeded = foodItem.Threshold - foodItem.Quantity;
+                var groceryListFoodItem = new GroceryListFood();
+
+
+                groceryListFoodItem.FoodId = foodItem.Id;
+                groceryListFoodItem.GroceryListId = groceryList.Id;
+                if(quantityNeeded != 0)
+                {
+                    groceryListFoodItem.Quantity = quantityNeeded + 1;
+                }else
+                {
+                    groceryListFoodItem.Quantity = foodItem.Threshold + 1;
+                }
+ 
+                _context.GroceryListFoods.Add(groceryListFoodItem);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(SuggestedList));
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+       
 
         // GET: GroceryList/Edit/5
         public async Task<ActionResult> Edit(int id)
