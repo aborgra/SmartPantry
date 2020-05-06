@@ -79,6 +79,10 @@ namespace SmartPantry.Controllers
                 var pantryId = user.PantryId;
                 var groceryList = await _context.GroceryLists
                     .FirstOrDefaultAsync(gl => gl.PantryId == user.PantryId);
+                var foodMatch = await _context.Foods
+                    .FirstOrDefaultAsync(f => f.Name.Contains(foodItem.FoodItemName));
+                if(foodMatch == null)
+                {
 
                 var food = new Food()
                 {
@@ -102,6 +106,19 @@ namespace SmartPantry.Controllers
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
+                } else
+                {
+
+                    var categories = await _context.Categories.Select(c => new SelectListItem()
+                    {
+                        Text = c.Name,
+                        Value = c.Id.ToString()
+                    }).ToListAsync();
+
+                    foodItem.CategoryOptions = categories;
+                    foodItem.ShowDialog = true;
+                    return View(foodItem);
+                }
             }
             catch (Exception ex)
             {
