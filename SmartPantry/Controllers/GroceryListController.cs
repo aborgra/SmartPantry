@@ -38,6 +38,7 @@ namespace SmartPantry.Controllers
             {
                 foodItems = await _context.GroceryListFoods
                       .Where(gl => gl.Food.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId || gl.Food.Category.Name.Contains(searchString) && gl.Food.PantryId == user.PantryId)
+                      .OrderBy(glf => glf.Food.CategoryId)
                        .ToListAsync();
                 return View(foodItems);
             }
