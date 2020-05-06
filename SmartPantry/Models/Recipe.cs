@@ -9,8 +9,20 @@ namespace SmartPantry.Models
     public class Response
     {
         [JsonPropertyName("hits")]
-        public List<Recipe> Hits { get; set; }
+        public List<MetaData> Hits { get; set; }
     }
+
+    public class MetaData
+    {
+        [JsonPropertyName("bought")]
+        public bool Bought { get; set; }
+        [JsonPropertyName("bookmarked")]
+        public bool Bookmarked { get; set; }
+
+        [JsonPropertyName("recipe")]
+        public Recipe Recipe { get; set; }
+    }
+
     public class Recipe
     {
         [JsonPropertyName("label")]
@@ -61,7 +73,7 @@ namespace SmartPantry.Models
         [JsonPropertyName("label")]
         public string Label { get; set; }
         [JsonPropertyName("quantity")]
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         [JsonPropertyName("unit")]
         public string Unit { get; set; }
     }
