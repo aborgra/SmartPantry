@@ -243,8 +243,15 @@ namespace SmartPantry.Controllers
             {
                 var groceryListItem = await _context.GroceryListFoods
                     .FirstOrDefaultAsync(glf => glf.Id == id);
+                var foodItem = await _context.Foods
+                    .FirstOrDefaultAsync(f => f.Id == groceryListItem.FoodId);
 
                 _context.GroceryListFoods.Remove(groceryListItem);
+                if(foodItem.Quantity == 0)
+                {
+                  _context.Foods.Remove(foodItem);
+                }
+
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -254,6 +261,40 @@ namespace SmartPantry.Controllers
                 return View();
             }
         }
+
+        // POST: GroceryList/DeleteSuggested/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteSuggested(int id)
+        {
+            try
+            {
+               
+                var foodItem = await _context.Foods
+                    .FirstOrDefaultAsync(f => f.Id == id);
+
+            
+                if (foodItem.Quantity == 0)
+                {
+                    _context.Foods.Remove(foodItem);
+                }
+                else
+                {
+                    foodItem.Threshold = 0;
+                    _context.Foods.Update(foodItem);
+                }
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(SuggestedList));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
         // POST: GroceryList/Purchase
         [HttpPost]
         [ValidateAntiForgeryToken]
