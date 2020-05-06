@@ -18,5 +18,6 @@ namespace SmartPantry.Models.ViewModels
         public Category Category { get; set; }
         public int UserId { get; set; }
         public int PantryId { get; set; }
+        public bool ShowDialog { get; set; }
     }
 }

@@ -7,6 +7,19 @@
 <br />
 <h4>Add to Grocery List</h4>
 <hr />
+@if (Model.ShowDialog)
+{
+<div id="dialog" title="dialog">
+    <br/>
+    <h5>Item appears to already exist in pantry.</h5>
+    <h6> Please add item from pantry view or enter a different item name.</h6>
+    <a asp-action="Index" class="btn btn-link">Back to Grocery List</a> | 
+    <a asp-action="Index" class="btn btn-link" asp-controller="Pantry">Go to My Pantry</a>
+
+</div>
+    <script>show();</script>
+}
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -55,3 +68,11 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script type="text/javascript">
+    function show() {
+        $("#dialog").dialog();
+    }
+</script>
+
+
