@@ -29,7 +29,7 @@ namespace SmartPantry.Controllers
         {
             var query = HttpUtility.HtmlEncode(q);
             
-            var uri = $"https://api.edamam.com/search?q={query}&app_id=824953da&app_key=231a6fa597253d411d38714f22311a5b";
+            var uri = $"https://api.edamam.com/search?q={query}&to=50&app_id=824953da&app_key=231a6fa597253d411d38714f22311a5b";
             var client = new HttpClient();
 
             // Set request header to accept JSON
