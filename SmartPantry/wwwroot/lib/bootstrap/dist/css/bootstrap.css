@@ -47,7 +47,16 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
     overflow: visible;
 }
 
+.cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
 
+.recipeCard {
+    flex-basis: 70% !important;
+    margin: 20px !important;
+    width: 350px !important;
+}
 
 
 *,

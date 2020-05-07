@@ -7,39 +7,41 @@
 <h1>Recipes</h1>
 
 
+<div class="cardContainer">
+    @foreach (var item in Model.Hits)
+    {
 
-@foreach (var item in Model.Hits)
-{
+        <div class="card mb-3 recipeCard">
+            <h3 class="card-header">@item.Recipe.Label</h3>
+            <div class="card-body">
+                <a href="@item.Recipe.Url" target="_blank" class="card-link">@item.Recipe.Url</a>
+            </div>
+            <div class="card-body">
+                <h6 class="card-subtitle text-muted">Cook Time: @item.Recipe.TotalTime minutes</h6>
+            </div>
+            <img style="height: 200px; width: 300px; display: block; padding: 10px;" src="@item.Recipe.Image" alt="Card image">
+            <div class="card-body">
+                Ingredients:
+                <ul class="list-group">
+                    @foreach (var ingred in item.Recipe.Ingredients)
+                    {
+                        <li class="list-group-item">@ingred.Text</li>
+                    }
+                </ul>
+            </div>
+            <div class="card-body">
+                Nutrition Information:
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Carbs.Label: @item.Recipe.TotalNutrients.Carbs.Quantity@item.Recipe.TotalNutrients.Carbs.Unit</p>
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Cholesterol.Label: @item.Recipe.TotalNutrients.Cholesterol.Quantity@item.Recipe.TotalNutrients.Cholesterol.Unit</p>
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Fiber.Label: @item.Recipe.TotalNutrients.Fiber.Quantity@item.Recipe.TotalNutrients.Fiber.Unit</p>
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Protein.Label: @item.Recipe.TotalNutrients.Protein.Quantity@item.Recipe.TotalNutrients.Protein.Unit</p>
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Sodium.Label: @item.Recipe.TotalNutrients.Sodium.Quantity@item.Recipe.TotalNutrients.Sodium.Unit</p>
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Sugar.Label: @item.Recipe.TotalNutrients.Sugar.Quantity@item.Recipe.TotalNutrients.Sugar.Unit</p>
+            </div>
 
-<div class="card mb-3">
-    <h3 class="card-header">@item.Recipe.Label</h3>
-    <div class="card-body">
-        <a href="@item.Recipe.Url" target="_blank" class="card-link">@item.Recipe.Url</a>
-    </div>
-    <div class="card-body">
-        <h6 class="card-subtitle text-muted">Cook Time: @item.Recipe.TotalTime minutes</h6>
-    </div>
-    <img style="height: 200px; width: 300px; display: block;" src="@item.Recipe.Image" alt="Card image">
-    <div class="card-body">
-        <ul class="list-group">
-            @foreach (var ingred in item.Recipe.Ingredients)
-            {
-                <li class="list-group-item">@ingred.Text</li>
-            }
-        </ul>
-    </div>
-    <div class="list-group">
-        Nutrition Information
-        <p class="list-group-item">@item.Recipe.TotalNutrients.Carbs.Label: @item.Recipe.TotalNutrients.Carbs.Quantity@item.Recipe.TotalNutrients.Carbs.Unit</p>
-        <p class="list-group-item">@item.Recipe.TotalNutrients.Cholesterol.Label: @item.Recipe.TotalNutrients.Cholesterol.Quantity@item.Recipe.TotalNutrients.Cholesterol.Unit</p>
-        <p class="list-group-item">@item.Recipe.TotalNutrients.Fiber.Label: @item.Recipe.TotalNutrients.Fiber.Quantity@item.Recipe.TotalNutrients.Fiber.Unit</p>
-        <p class="list-group-item">@item.Recipe.TotalNutrients.Protein.Label: @item.Recipe.TotalNutrients.Protein.Quantity@item.Recipe.TotalNutrients.Protein.Unit</p>
-        <p class="list-group-item">@item.Recipe.TotalNutrients.Sodium.Label: @item.Recipe.TotalNutrients.Sodium.Quantity@item.Recipe.TotalNutrients.Sodium.Unit</p>
-        <p class="list-group-item">@item.Recipe.TotalNutrients.Sugar.Label: @item.Recipe.TotalNutrients.Sugar.Quantity@item.Recipe.TotalNutrients.Sugar.Unit</p>
-    </div>
+            <div class="card-footer text-muted">
 
-    <div class="card-footer text-muted">
-
-    </div>
+            </div>
+        </div>
+    }
 </div>
-}
