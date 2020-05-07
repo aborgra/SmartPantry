@@ -12,7 +12,16 @@
     {
 
         <div class="card mb-3 recipeCard">
-            <h3 class="card-header">@item.Recipe.Label</h3>
+            <div class="card-header">
+                <h3>@item.Recipe.Label</h3>
+                @using (Html.BeginForm("Favorite", "Recipes"))
+                {
+                    <div class="favoriteButton">
+                        <input asp-for="@item" type="hidden" value="@item" name="id" class="form-control" />
+                        <input type="image" src="~/icons/heart.svg" />
+                    </div>
+                }
+                </div>
             <div class="card-body">
                 <a href="@item.Recipe.Url" target="_blank" class="card-link">@item.Recipe.Url</a>
             </div>
