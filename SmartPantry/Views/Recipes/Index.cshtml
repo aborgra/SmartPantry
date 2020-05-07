@@ -16,9 +16,12 @@
             <div class="card-body">
                 <a href="@item.Recipe.Url" target="_blank" class="card-link">@item.Recipe.Url</a>
             </div>
+            @if(item.Recipe.TotalTime > 0 && item.Recipe.TotalTime < 100)
+            {
             <div class="card-body">
                 <h6 class="card-subtitle text-muted">Cook Time: @item.Recipe.TotalTime minutes</h6>
             </div>
+            }
             <img style="height: 200px; width: 300px; display: block; padding: 10px;" src="@item.Recipe.Image" alt="Card image">
             <div class="card-body">
                 Ingredients:
