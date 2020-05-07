@@ -74,6 +74,15 @@
                     </div>
                 }
             </td>
+            <td>
+                @using (Html.BeginForm("Index", "Recipes"))
+                {
+                    <div class="likeButton">
+                        <input asp-for="@item.Name" type="hidden" value="@item.Name" name="q" class="form-control" />
+                        <input type="image" src="~/icons/list.svg" />
+                    </div>
+                }
+            </td>
         </tr>
 }
     </tbody>

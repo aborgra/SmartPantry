@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,9 @@ namespace SmartPantry.Controllers
         // GET: Recipes
         public async Task<ActionResult> Index(string q)
         {
-            var uri = "https://api.edamam.com/search?q=apple&app_id=824953da&app_key=231a6fa597253d411d38714f22311a5b";
+            var query = HttpUtility.HtmlEncode(q);
+            
+            var uri = $"https://api.edamam.com/search?q={query}&app_id=824953da&app_key=231a6fa597253d411d38714f22311a5b";
             var client = new HttpClient();
 
             // Set request header to accept JSON
