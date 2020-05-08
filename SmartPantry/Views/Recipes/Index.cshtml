@@ -12,7 +12,9 @@
     {
 
         <div class="card mb-3 recipeCard">
-            <h3 class="card-header">@item.Recipe.Label</h3>
+            <div class="card-header">
+                <h3>@item.Recipe.Label</h3>
+                </div>
             <div class="card-body">
                 <a href="@item.Recipe.Url" target="_blank" class="card-link">@item.Recipe.Url</a>
             </div>
@@ -34,12 +36,12 @@
             </div>
             <div class="card-body">
                 Nutrition Information:
-                <p class="list-group-item">@item.Recipe.TotalNutrients.Carbs.Label: @item.Recipe.TotalNutrients.Carbs.Quantity@item.Recipe.TotalNutrients.Carbs.Unit</p>
-                <p class="list-group-item">@item.Recipe.TotalNutrients.Cholesterol.Label: @item.Recipe.TotalNutrients.Cholesterol.Quantity@item.Recipe.TotalNutrients.Cholesterol.Unit</p>
-                <p class="list-group-item">@item.Recipe.TotalNutrients.Fiber.Label: @item.Recipe.TotalNutrients.Fiber.Quantity@item.Recipe.TotalNutrients.Fiber.Unit</p>
-                <p class="list-group-item">@item.Recipe.TotalNutrients.Protein.Label: @item.Recipe.TotalNutrients.Protein.Quantity@item.Recipe.TotalNutrients.Protein.Unit</p>
-                <p class="list-group-item">@item.Recipe.TotalNutrients.Sodium.Label: @item.Recipe.TotalNutrients.Sodium.Quantity@item.Recipe.TotalNutrients.Sodium.Unit</p>
-                <p class="list-group-item">@item.Recipe.TotalNutrients.Sugar.Label: @item.Recipe.TotalNutrients.Sugar.Quantity@item.Recipe.TotalNutrients.Sugar.Unit</p>
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Carbs.Label: @item.Recipe.TotalNutrients.Carbs.Quantity.ToString("0.0")@item.Recipe.TotalNutrients.Carbs.Unit</p>
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Cholesterol.Label: @item.Recipe.TotalNutrients.Cholesterol.Quantity.ToString("0.0")@item.Recipe.TotalNutrients.Cholesterol.Unit</p>
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Fiber.Label: @item.Recipe.TotalNutrients.Fiber.Quantity.ToString("0.0")@item.Recipe.TotalNutrients.Fiber.Unit</p>
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Protein.Label: @item.Recipe.TotalNutrients.Protein.Quantity.ToString("0.0")@item.Recipe.TotalNutrients.Protein.Unit</p>
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Sodium.Label: @item.Recipe.TotalNutrients.Sodium.Quantity.ToString("0.0")@item.Recipe.TotalNutrients.Sodium.Unit</p>
+                <p class="list-group-item">@item.Recipe.TotalNutrients.Sugar.Label: @item.Recipe.TotalNutrients.Sugar.Quantity.ToString("0.0")@item.Recipe.TotalNutrients.Sugar.Unit</p>
             </div>
 
             <div class="card-footer text-muted">

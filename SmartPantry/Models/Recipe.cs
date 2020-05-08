@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -55,16 +56,23 @@ namespace SmartPantry.Models
         [JsonPropertyName("Fat")]
         public Fat Fat { get; set; }
         [JsonPropertyName("CHOCDF")]
+        [DisplayFormat(DataFormatString = "{0:#.#}")]
+
         public Carbs Carbs { get; set; }
         [JsonPropertyName("FIBTG")]
+
         public Fiber Fiber { get; set; }
         [JsonPropertyName("SUGAR")]
+
         public Sugar Sugar { get; set; }
         [JsonPropertyName("PROCNT")]
+
         public Protein Protein { get; set; }
         [JsonPropertyName("CHOLE")]
+
         public Cholesterol Cholesterol { get; set; }
         [JsonPropertyName("NA")]
+
         public Sodium Sodium { get; set; }
     }
 
@@ -73,6 +81,8 @@ namespace SmartPantry.Models
         [JsonPropertyName("label")]
         public string Label { get; set; }
         [JsonPropertyName("quantity")]
+        [DisplayFormat(DataFormatString = "{0:#.#}")]
+
         public double Quantity { get; set; }
         [JsonPropertyName("unit")]
         public string Unit { get; set; }
