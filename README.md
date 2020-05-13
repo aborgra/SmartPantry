@@ -8,8 +8,8 @@ Each pantry item has a recipe button that allows the user to view recipes that a
 
 On the grocery list tab, the user has the ability to add and delete items, including quantity, and can easily adjust the quantity of list items from the main page.  A "Suggested Items" button shows the user a detailed view of current pantry items that have hit the low quantity alert threshold set by the user, including the current amount in the pantry, or that have a quantity of 0.  The user can choose to add these items to the grocery list or delete the suggested item.  From the grocery list, the user can indicate a purchase of the item with a single click, and the item and quantity purchased are automatically added to the current user's pantry.  
 
-<img src="SmartPantry/wwwroot/Images/MyPantryCapture.PNG" height="250" width="350">      <img src="SmartPantry/wwwroot/Images/MyGroceryCapture.PNG" height="250" width="350">
-<img src="SmartPantry/wwwroot/Images/RecipesCapture.PNG" height="250px" width="350px">
+<img src="SmartPantry/wwwroot/Images/MyPantryCapture.PNG" height="140" width="250">      <img src="SmartPantry/wwwroot/Images/MyGroceryCapture.PNG" height="140" width="250">
+<img src="SmartPantry/wwwroot/Images/RecipesCapture.PNG" height="140" width="250px">
 
 ## Installation
 
