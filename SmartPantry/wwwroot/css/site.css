@@ -72,7 +72,6 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
     padding: 5px !important;
 }
 
-
 /* Provide sufficient contrast against white background */
 a {
     color: #18BC9C;
