@@ -9,6 +9,7 @@ using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using SmartPantry.Data;
 using SmartPantry.Models;
 
@@ -25,11 +26,14 @@ namespace SmartPantry.Controllers
             _userManager = userManager;
         }
         // GET: Recipes
-        public async Task<ActionResult> Index(string q)
+        public async Task<ActionResult> Index(string q, [FromServices] IConfiguration configuration)
         {
             var query = HttpUtility.HtmlEncode(q);
-            
-            var uri = $"https://api.edamam.com/search?q={query}&to=50&app_id=824953da&app_key=231a6fa597253d411d38714f22311a5b";
+
+            var apiId = configuration["RecipeAPIIdentifier"];
+            var apiKey = configuration["RecipeAPIKey"];
+
+            var uri = $"https://api.edamam.com/search?q={query}&to=50&app_id={apiId}&app_key={apiKey}";
             var client = new HttpClient();
 
             // Set request header to accept JSON
