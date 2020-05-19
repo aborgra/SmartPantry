@@ -192,7 +192,6 @@ namespace SmartPantry.Controllers
 
         // POST: Pantry/QuantityUp/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> QuantityUp(int id)
         {
             try
@@ -205,7 +204,7 @@ namespace SmartPantry.Controllers
                 _context.Foods.Update(food);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
+                return Ok(food);
             }
             catch (Exception ex)
             {
@@ -215,22 +214,16 @@ namespace SmartPantry.Controllers
 
         // POST: Pantry/QuantityDown/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> QuantityDown(int id)
         {
             try
             {
-                var food = await _context.Foods.Include(f => f.Category)
-                               .FirstOrDefaultAsync(f => f.Id == id);
-                if(food.Quantity > 0)
-                {
+                var food = await _context.Foods.Include(f => f.Category).FirstOrDefaultAsync(f => f.Id == id);
                 food.Quantity = food.Quantity - 1;
-                }
-
                 _context.Foods.Update(food);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
+                return Ok(food);
             }
             catch
             {

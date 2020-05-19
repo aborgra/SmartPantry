@@ -41,7 +41,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr id="pantryTableRow--@item.Id">
             <td>
                 @Html.ActionLink(item.Name, "Details", new { id = item.Id}, new {@class = "btn btn-link"})
             </td>
@@ -50,19 +50,19 @@
             </td>
             <td>
                 <div id="quantityButtonContainer">
-                    @Html.DisplayFor(modelItem => item.Quantity)
+                    <div id="pantryItemQuantity--@item.Id">@Html.DisplayFor(modelItem => item.Quantity)</div>
                     <div class="buttonContainer-quantity">
                         @using (Html.BeginForm("QuantityUp", "Pantry"))
                         {
                             <div class="quantityAdjustButton">
-                                <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                                <input type="image" src="~/icons/plus.svg" />
+                                <input id="upQuantityId--@item.Id" asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                                <input class="upQuantityButtonPantry" value="@item.Id" type="image" src="~/icons/plus.svg" />
                             </div>
                         }@using (Html.BeginForm("QuantityDown", "Pantry"))
                         {
                             <div class="quantityAdjustButton">
-                                <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                                <input type="image" src="~/icons/minus.svg" />
+                                <input id="downQuantityId--@item.Id" asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                                <input class="downQuantityButtonPantry" value="@item.Id" type="image" src="~/icons/minus.svg" />
                             </div>
                         }
                     </div>
@@ -71,10 +71,10 @@
             <td>
                 @using (Html.BeginForm("AddFromPantry", "GroceryList"))
                 {
-                    <div class="likeButton">
-                        <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                        <input type="image" src="~/icons/check.svg" />
-                    </div>
+                <div class="likeButton">
+                    <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                    <input type="image" src="~/icons/check.svg" />
+                </div>
                 }
             </td>
             <td>
@@ -90,3 +90,5 @@
 }
     </tbody>
 </table>
+
+<script src="~/js/site.js"></script>
