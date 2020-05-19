@@ -43,7 +43,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
+        <tr id="groceryTableRow--@item.Id">
             <td>
                 @using (Html.BeginForm("Purchase", "GroceryList"))
                 {
@@ -61,19 +61,19 @@
                 </td>
                 <td>
                     <div id="quantityButtonContainer">
-                        @Html.DisplayFor(modelItem => item.Quantity)
+                        <div id="groceryItemQuantity--@item.Id">@Html.DisplayFor(modelItem => item.Quantity)</div>
                         <div class="buttonContainer-quantity">
                             @using (Html.BeginForm("QuantityUp", "GroceryList"))
                             {
                                 <div class="quantityAdjustButton">
                                     <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                                    <input type="image" src="~/icons/plus.svg" />
+                                    <input class="upQuantityButtonGrocery" value="@item.Id"type="image" src="~/icons/plus.svg" />
                                 </div>
                             }@using (Html.BeginForm("QuantityDown", "GroceryList"))
                             {
                                 <div class="quantityAdjustButton">
                                     <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
-                                    <input type="image" src="~/icons/minus.svg" />
+                                    <input class="downQuantityButtonGrocery" value="@item.Id" type="image" src="~/icons/minus.svg" />
                                 </div>
                             }
                             </div>
@@ -92,3 +92,5 @@
         }
     </tbody>
 </table>
+
+<script src="~/js/site.js"></script>
