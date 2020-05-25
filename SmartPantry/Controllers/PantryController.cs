@@ -147,6 +147,7 @@ namespace SmartPantry.Controllers
                 Quantity = food.Quantity,
                 CategoryOptions = categories,
                 QuantityUnitOptions = quantityUnits,
+                QuantityUnitId = food.QuantityUnitId,
                 Threshold = food.Threshold,
                 FoodId = food.Id,
                 PantryId = food.PantryId.Value,

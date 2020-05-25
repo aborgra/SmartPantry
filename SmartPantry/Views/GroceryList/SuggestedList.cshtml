@@ -34,7 +34,15 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Quantity) @Html.DisplayFor(modelItem => item.QuantityUnit.Name)
+                @Html.DisplayFor(modelItem => item.Quantity)
+                @if (item.Quantity != 1 || item.QuantityUnit.Name != "other")
+                {
+                    @item.QuantityUnit.Name<text>s</text>;
+                }
+                else
+                {
+                    @item.QuantityUnit.Name;
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)

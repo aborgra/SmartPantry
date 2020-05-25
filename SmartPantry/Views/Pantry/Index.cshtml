@@ -50,7 +50,17 @@
             </td>
             <td>
                 <div id="quantityButtonContainer">
-                    <div id="pantryItemQuantity--@item.Id">@Html.DisplayFor(modelItem => item.Quantity) @Html.DisplayFor(modelItem => item.QuantityUnit.Name)</div>
+                    <div id="pantryItemQuantity--@item.Id">
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                        @if (item.Quantity != 1 && item.QuantityUnit.Name != "other")
+                        {
+                           @item.QuantityUnit.Name<text>s</text>;
+                        }else
+                        {
+                            @item.QuantityUnit.Name
+                        }
+
+                    </div>
                     <div class="buttonContainer-quantity">
                         @using (Html.BeginForm("QuantityUp", "Pantry"))
                         {
