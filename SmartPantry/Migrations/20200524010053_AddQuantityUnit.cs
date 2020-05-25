@@ -9,8 +9,8 @@ namespace SmartPantry.Migrations
             migrationBuilder.AddColumn<int>(
                 name: "QuantityUnitId",
                 table: "Foods",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true,
+                defaultValue: null);
 
             migrationBuilder.CreateTable(
                 name: "QuantityUnits",
@@ -58,7 +58,7 @@ namespace SmartPantry.Migrations
                 column: "QuantityUnitId",
                 principalTable: "QuantityUnits",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.SetNull);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

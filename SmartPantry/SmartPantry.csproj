@@ -12,6 +12,8 @@
     <Compile Remove="Migrations\20200502164936_AddFoodBool.Designer.cs" />
     <Compile Remove="Migrations\20200524001857_AddQuantityUnitModel.cs" />
     <Compile Remove="Migrations\20200524001857_AddQuantityUnitModel.Designer.cs" />
+    <Compile Remove="Migrations\20200525231936_QUNull.cs" />
+    <Compile Remove="Migrations\20200525231936_QUNull.Designer.cs" />
   </ItemGroup>
 
 
