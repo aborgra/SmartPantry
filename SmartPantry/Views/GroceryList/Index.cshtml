@@ -61,7 +61,7 @@
                 </td>
                 <td>
                     <div id="quantityButtonContainer">
-                        <div id="groceryItemQuantity--@item.Id">@Html.DisplayFor(modelItem => item.Quantity)</div>
+                        <div id="groceryItemQuantity--@item.Id">@Html.DisplayFor(modelItem => item.Quantity) @Html.DisplayFor(modelItem => item.Food.QuantityUnit.Name)</div>
                         <div class="buttonContainer-quantity">
                             @using (Html.BeginForm("QuantityUp", "GroceryList"))
                             {

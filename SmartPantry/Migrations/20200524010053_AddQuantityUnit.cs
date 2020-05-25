@@ -37,10 +37,10 @@ namespace SmartPantry.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "grams" },
+                    { 1, "gram" },
                     { 2, "cup" },
                     { 3, "gallon" },
-                    { 4, "lbs" },
+                    { 4, "lb" },
                     { 5, "oz" },
                     { 6, "package" },
                     { 7, "pint" },

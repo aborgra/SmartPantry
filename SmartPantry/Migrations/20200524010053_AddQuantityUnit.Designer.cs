@@ -436,7 +436,7 @@ namespace SmartPantry.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "grams"
+                            Name = "gram"
                         },
                         new
                         {
@@ -451,7 +451,7 @@ namespace SmartPantry.Migrations
                         new
                         {
                             Id = 4,
-                            Name = "lbs"
+                            Name = "lb"
                         },
                         new
                         {
