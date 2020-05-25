@@ -15,7 +15,7 @@ allUpQuantityButtonsPantry.forEach(upQuantityButton => {
 
     var newQuantity = document.getElementById(`pantryItemQuantity--${itemId}`)
         newQuantity.innerHTML = `${updatedQuantity.quantity} ${updatedQuantity.quantityUnit.name}`;
-        if (updatedQuantity.quantity > 1 && updatedQuantity.food.quantityUnit.name != "other") {
+        if (updatedQuantity.quantity !== 1 && updatedQuantity.quantityUnitId !== 8) {
             newQuantity.innerHTML += "s";
         }
     })
@@ -36,7 +36,7 @@ allDownQuantityButtonsPantry.forEach(downQuantityButton => {
         } else {
         var newQuantity = document.getElementById(`pantryItemQuantity--${itemId}`)
             newQuantity.innerHTML = `${updatedQuantity.quantity} ${updatedQuantity.quantityUnit.name}`;
-            if (updatedQuantity.quantity > 1 && updatedQuantity.food.quantityUnit.name != "other") {
+            if (updatedQuantity.quantity !== 1 && updatedQuantity.quantityUnitId !== 8) {
                 newQuantity.innerHTML += "s";
             }
         }
@@ -54,7 +54,7 @@ allUpQuantityButtonsGrocery.forEach(upQuantityButton => {
 
         var newQuantity = document.getElementById(`groceryItemQuantity--${itemId}`)
         newQuantity.innerHTML = `${updatedQuantity.quantity} ${updatedQuantity.food.quantityUnit.name}`;
-        if (updatedQuantity.quantity > 1 && updatedQuantity.food.quantityUnit.name != "other") {
+        if (updatedQuantity.quantity !== 1 && updatedQuantity.food.quantityUnitId !== 8) {
             newQuantity.innerHTML += "s";
         }
     })
@@ -75,7 +75,7 @@ allDownQuantityButtonsGrocery.forEach(downQuantityButton => {
         } else {
             var newQuantity = document.getElementById(`groceryItemQuantity--${itemId}`)
             newQuantity.innerHTML = `${updatedQuantity.quantity} ${updatedQuantity.food.quantityUnit.name}`;
-            if (updatedQuantity.quantity > 1 && updatedQuantity.food.quantityUnit.name != "other") {
+            if (updatedQuantity.quantity !== 1 && updatedQuantity.food.quantityUnitId !== 8) {
                 newQuantity.innerHTML += "s";
             }
         }

@@ -63,7 +63,7 @@
                     <div id="quantityButtonContainer">
                         <div id="groceryItemQuantity--@item.Id">
                             @Html.DisplayFor(modelItem => item.Quantity)
-                            @if (item.Quantity != 1 || item.Food.QuantityUnit.Name != "other")
+                            @if (item.Quantity != 1 && item.Food.QuantityUnit.Name != "other")
                             {
                                 @item.Food.QuantityUnit.Name<text>s</text>;
                             }
