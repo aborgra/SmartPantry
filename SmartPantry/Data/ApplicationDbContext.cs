@@ -21,6 +21,7 @@ namespace SmartPantry.Data
         public DbSet<Pantry> Pantries { get; set; }
         public DbSet<GroceryList> GroceryLists { get; set; }
         public DbSet<GroceryListFood> GroceryListFoods { get; set; }
+        public DbSet<QuantityUnit> QuantityUnits { get; set; }
 
 
 
@@ -106,6 +107,48 @@ namespace SmartPantry.Data
                     Name = "Other"
                 }
             );
+            modelBuilder.Entity<QuantityUnit>().HasData(
+               new QuantityUnit()
+               {
+                   Id = 1,
+                   Name = "grams"
+               },
+               new QuantityUnit()
+               {
+                   Id = 2,
+                   Name = "cup"
+               },
+                new QuantityUnit()
+                {
+                    Id = 3,
+                    Name = "gallon"
+                },
+               new QuantityUnit()
+               {
+                   Id = 4,
+                   Name = "lbs"
+               },
+               new QuantityUnit()
+               {
+                   Id = 5,
+                   Name = "oz"
+               },
+               new QuantityUnit()
+               {
+                   Id = 6,
+                   Name = "package"
+               },
+                new QuantityUnit()
+                {
+                    Id = 7,
+                    Name = "pint"
+                },
+                new QuantityUnit()
+                {
+                    Id = 8,
+                    Name = "other"
+                }
+           );
 
 
         }

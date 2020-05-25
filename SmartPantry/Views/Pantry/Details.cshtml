@@ -13,16 +13,32 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Quantity)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Quantity)
+            @if (Model.Quantity != 1)
+            {
+                @Model.QuantityUnit.Name <text>s</text>;
+            }
+            else
+            {
+                @Model.QuantityUnit.Name
+            }
         </dd>
         @if(Model.Threshold > 0)
         {
         <dt class = "col-sm-2">
-            Low Quantity Alert Threshold
+            Low Quantity Alert
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Threshold)
+            @if (Model.Threshold != 1 && Model.QuantityUnit.Name != "other")
+            {
+                @Model.QuantityUnit.Name <text>s</text>;
+            }
+            else
+            {
+                @Model.QuantityUnit.Name
+            }
         </dd>
         }
         <dt class = "col-sm-2">

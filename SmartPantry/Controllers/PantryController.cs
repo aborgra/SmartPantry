@@ -32,6 +32,7 @@ namespace SmartPantry.Controllers
             var foodItems = await _context.Foods
                 .Include(f => f.Pantry)
                 .Include(c => c.Category)
+                .Include (u => u.QuantityUnit)
                 .Where(f => f.PantryId == user.PantryId && f.Quantity > 0)
                 .OrderBy(f => f.CategoryId)
                 .ToListAsync();
@@ -42,8 +43,9 @@ namespace SmartPantry.Controllers
                 foodItems = await _context.Foods
                       .Where(f => f.Name.Contains(searchString) && f.PantryId == user.PantryId || f.Category.Name.Contains(searchString) && f.PantryId == user.PantryId)
                       .Include(f => f.Category)
-                       .OrderBy(f => f.CategoryId)
-                       .ToListAsync();
+                      .Include(u => u.QuantityUnit)
+                      .OrderBy(f => f.CategoryId)
+                      .ToListAsync();
                 return View(foodItems);
             }
 
@@ -54,11 +56,12 @@ namespace SmartPantry.Controllers
         public async Task<ActionResult> Details(int id)
         {
             var viewModel = new FoodItemFormViewModel();
-            var food = await _context.Foods.Include(f => f.Category)
+            var food = await _context.Foods.Include(f => f.Category).Include(u => u.QuantityUnit)
                 .FirstOrDefaultAsync(f => f.Id == id);
             var user = await GetUserAsync();
             viewModel.FoodId = food.Id;
             viewModel.Category = food.Category;
+            viewModel.QuantityUnit = food.QuantityUnit;
             viewModel.FoodItemName = food.Name;
             viewModel.PantryId = food.PantryId.Value;
             viewModel.Quantity = food.Quantity;
@@ -77,7 +80,14 @@ namespace SmartPantry.Controllers
                 Value = c.Id.ToString()
             }).ToListAsync();
 
+            var quantityUnits = await _context.QuantityUnits.Select(qu => new SelectListItem()
+            {
+                Text = qu.Name,
+                Value = qu.Id.ToString()
+            }).ToListAsync();
+
             viewModel.CategoryOptions = categories;
+            viewModel.QuantityUnitOptions = quantityUnits;
 
             return View(viewModel);
         }
@@ -98,6 +108,7 @@ namespace SmartPantry.Controllers
                     Name = foodItem.FoodItemName,
                     CategoryId = foodItem.CategoryId,
                     Quantity = foodItem.Quantity,
+                    QuantityUnitId = foodItem.QuantityUnitId,
                     Threshold = foodItem.Threshold,
                     IsThreshold = foodItem.IsThreshold
                 };
@@ -115,7 +126,7 @@ namespace SmartPantry.Controllers
         // GET: Pantry/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var food = await _context.Foods.Include(f => f.Category)
+            var food = await _context.Foods.Include(f => f.Category).Include(qu => qu.QuantityUnit)
                 .FirstOrDefaultAsync(f => f.Id == id);
 
             var categories = await _context.Categories.Select(c => new SelectListItem()
@@ -124,11 +135,19 @@ namespace SmartPantry.Controllers
                 Value = c.Id.ToString()
             }).ToListAsync();
 
+            var quantityUnits = await _context.QuantityUnits.Select(qu => new SelectListItem()
+            {
+                Text = qu.Name,
+                Value = qu.Id.ToString()
+            }).ToListAsync();
+
             var viewModel = new FoodItemFormViewModel()
             {
                 FoodItemName = food.Name,
                 Quantity = food.Quantity,
                 CategoryOptions = categories,
+                QuantityUnitOptions = quantityUnits,
+                QuantityUnitId = food.QuantityUnitId,
                 Threshold = food.Threshold,
                 FoodId = food.Id,
                 PantryId = food.PantryId.Value,
@@ -145,11 +164,12 @@ namespace SmartPantry.Controllers
         {
             try
             {
-                var food = await _context.Foods.Include(f => f.Category)
+                var food = await _context.Foods.Include(f => f.Category).Include(qu => qu.QuantityUnit)
                                .FirstOrDefaultAsync(f => f.Id == id);
 
                 food.Name = foodItem.FoodItemName;
                 food.Quantity = foodItem.Quantity;
+                food.QuantityUnitId = foodItem.QuantityUnitId;
                 food.Threshold = foodItem.Threshold;
                 food.CategoryId = foodItem.CategoryId;
 
@@ -167,7 +187,7 @@ namespace SmartPantry.Controllers
         // GET: Pantry/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var food = await _context.Foods.Include(f => f.Category).FirstOrDefaultAsync(f => f.Id == id);
+            var food = await _context.Foods.Include(f => f.Category).Include(qu => qu.QuantityUnit).FirstOrDefaultAsync(f => f.Id == id);
 
             return View(food);
         }
@@ -196,7 +216,7 @@ namespace SmartPantry.Controllers
         {
             try
             {
-                var food = await _context.Foods.Include(f => f.Category)
+                var food = await _context.Foods.Include(f => f.Category).Include(qu => qu.QuantityUnit)
                                .FirstOrDefaultAsync(f => f.Id == id);
                 
                 food.Quantity = food.Quantity + 1;
@@ -218,7 +238,7 @@ namespace SmartPantry.Controllers
         {
             try
             {
-                var food = await _context.Foods.Include(f => f.Category).FirstOrDefaultAsync(f => f.Id == id);
+                var food = await _context.Foods.Include(f => f.Category).Include(qu => qu.QuantityUnit).FirstOrDefaultAsync(f => f.Id == id);
                 food.Quantity = food.Quantity - 1;
                 _context.Foods.Update(food);
                 await _context.SaveChangesAsync();

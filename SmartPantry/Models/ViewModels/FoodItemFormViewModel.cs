@@ -16,6 +16,10 @@ namespace SmartPantry.Models.ViewModels
         [Range(1, 100000,
         ErrorMessage = "Quantity must be greater than 0")]
         public int Quantity { get; set; }
+        public int QuantityUnitId { get; set; }
+        public QuantityUnit QuantityUnit { get; set; }
+        public List<SelectListItem> QuantityUnitOptions { get; set; }
+
         public bool IsThreshold { get; set; }
         public int Threshold { get; set; }
         public List<SelectListItem> CategoryOptions { get; set; }

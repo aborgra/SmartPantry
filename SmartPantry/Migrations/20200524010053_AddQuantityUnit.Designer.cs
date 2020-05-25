@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartPantry.Data;
 
 namespace SmartPantry.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200524010053_AddQuantityUnit")]
+    partial class AddQuantityUnit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -434,7 +436,7 @@ namespace SmartPantry.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "grams"
+                            Name = "gram"
                         },
                         new
                         {
@@ -449,7 +451,7 @@ namespace SmartPantry.Migrations
                         new
                         {
                             Id = 4,
-                            Name = "lbs"
+                            Name = "lb"
                         },
                         new
                         {

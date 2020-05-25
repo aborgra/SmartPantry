@@ -14,7 +14,10 @@ allUpQuantityButtonsPantry.forEach(upQuantityButton => {
          }).then(res => res.json());
 
     var newQuantity = document.getElementById(`pantryItemQuantity--${itemId}`)
-    newQuantity.innerHTML = updatedQuantity.quantity;
+        newQuantity.innerHTML = `${updatedQuantity.quantity} ${updatedQuantity.quantityUnit.name}`;
+        if (updatedQuantity.quantity !== 1 && updatedQuantity.quantityUnitId !== 8) {
+            newQuantity.innerHTML += "s";
+        }
     })
 })
 
@@ -32,7 +35,10 @@ allDownQuantityButtonsPantry.forEach(downQuantityButton => {
             tableRow.remove();
         } else {
         var newQuantity = document.getElementById(`pantryItemQuantity--${itemId}`)
-        newQuantity.innerHTML = updatedQuantity.quantity;
+            newQuantity.innerHTML = `${updatedQuantity.quantity} ${updatedQuantity.quantityUnit.name}`;
+            if (updatedQuantity.quantity !== 1 && updatedQuantity.quantityUnitId !== 8) {
+                newQuantity.innerHTML += "s";
+            }
         }
     })
 })
@@ -47,7 +53,10 @@ allUpQuantityButtonsGrocery.forEach(upQuantityButton => {
         }).then(res => res.json());
 
         var newQuantity = document.getElementById(`groceryItemQuantity--${itemId}`)
-        newQuantity.innerHTML = updatedQuantity.quantity;
+        newQuantity.innerHTML = `${updatedQuantity.quantity} ${updatedQuantity.food.quantityUnit.name}`;
+        if (updatedQuantity.quantity !== 1 && updatedQuantity.food.quantityUnitId !== 8) {
+            newQuantity.innerHTML += "s";
+        }
     })
 })
 
@@ -65,7 +74,10 @@ allDownQuantityButtonsGrocery.forEach(downQuantityButton => {
             tableRow.remove();
         } else {
             var newQuantity = document.getElementById(`groceryItemQuantity--${itemId}`)
-            newQuantity.innerHTML = updatedQuantity.quantity;
+            newQuantity.innerHTML = `${updatedQuantity.quantity} ${updatedQuantity.food.quantityUnit.name}`;
+            if (updatedQuantity.quantity !== 1 && updatedQuantity.food.quantityUnitId !== 8) {
+                newQuantity.innerHTML += "s";
+            }
         }
     })
 })

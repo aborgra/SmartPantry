@@ -9,17 +9,23 @@ namespace SmartPantry.Models
     public class Food
     {
         public int Id { get; set; }
+
         [Required]
         [Display(Name = "Item Name")]
         public string Name { get; set; }
+
         [Required]
         [Display(Name = "Quantity")]
-
-
         public int Quantity { get; set; }
+
+        [Required]
+        [Display(Name = "Unit")]
+        public int QuantityUnitId { get; set; }
+
+        public QuantityUnit QuantityUnit { get; set; }
+
         [Required]
         [Display(Name = "Low Quantity Alert Amount")]
-
         public bool IsThreshold { get; set; }
         public int Threshold { get; set; }
         public int? PantryId { get; set; }
