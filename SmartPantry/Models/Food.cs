@@ -18,9 +18,9 @@ namespace SmartPantry.Models
         [Display(Name = "Quantity")]
         public int Quantity { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Unit")]
-        public int QuantityUnitId { get; set; }
+        public int? QuantityUnitId { get; set; }
 
         public QuantityUnit QuantityUnit { get; set; }
 
