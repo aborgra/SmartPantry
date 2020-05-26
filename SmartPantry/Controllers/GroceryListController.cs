@@ -72,7 +72,7 @@ namespace SmartPantry.Controllers
             }).ToListAsync();
 
             viewModel.CategoryOptions = categories;
-            viewModel.QuantityUnitOptions = quantityUnits;
+            viewModel.QuantityUnitOptions = quantityUnits.OrderBy(qu => qu.Text).ToList();
 
             return View(viewModel);
         }
@@ -131,6 +131,7 @@ namespace SmartPantry.Controllers
                         Value = qu.Id.ToString()
                     }).ToListAsync();
 
+                    foodItem.QuantityUnitOptions = quantityUnits.OrderBy(qu => qu.Text).ToList();
                     foodItem.CategoryOptions = categories;
                     foodItem.ShowDialog = true;
                     return View(foodItem);
