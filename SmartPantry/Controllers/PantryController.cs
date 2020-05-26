@@ -87,7 +87,7 @@ namespace SmartPantry.Controllers
             }).ToListAsync();
 
             viewModel.CategoryOptions = categories;
-            viewModel.QuantityUnitOptions = quantityUnits;
+            viewModel.QuantityUnitOptions = quantityUnits.OrderBy(qu => qu.Text).ToList();
 
             return View(viewModel);
         }
@@ -146,7 +146,7 @@ namespace SmartPantry.Controllers
                 FoodItemName = food.Name,
                 Quantity = food.Quantity,
                 CategoryOptions = categories,
-                QuantityUnitOptions = quantityUnits,
+                QuantityUnitOptions = quantityUnits.OrderBy(qu => qu.Text).ToList(),
                 QuantityUnitId = food.QuantityUnitId.Value,
                 Threshold = food.Threshold,
                 FoodId = food.Id,
