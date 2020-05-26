@@ -28,7 +28,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
-            <th>
+            <th class="tableHeader">
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
             <th>
@@ -48,9 +48,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
-            <td>
-                <div id="quantityButtonContainer">
-                    <div id="pantryItemQuantity--@item.Id">
+            <td class="quantityContainer" id="quantityButtonContainer">
+                    <div class="quantityNumber" id="pantryItemQuantity--@item.Id">
                         @Html.DisplayFor(modelItem => item.Quantity)
                         @if (item.Quantity != 1 && item.QuantityUnit.Name != "other")
                         {
@@ -76,7 +75,6 @@
                             </div>
                         }
                     </div>
-                </div>
             </td>
             <td>
                 @using (Html.BeginForm("AddFromPantry", "GroceryList"))
