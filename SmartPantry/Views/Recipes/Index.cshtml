@@ -10,19 +10,26 @@
 <div class="cardContainer">
     @foreach (var item in Model.Hits)
     {
+        @using (Html.BeginForm("AddFavorite", "Recipes"))
+        {
+            <div class="likeButton">
+                <input asp-for="@item" type="hidden" value="@item" name="item" class="form-control" />
+                <input type="image" src="~/icons/heart.svg" />
+            </div>
+        }
 
         <div class="card mb-3 recipeCard">
             <div class="card-header">
                 <h3>@item.Recipe.Label</h3>
-                </div>
+            </div>
             <div class="card-body">
                 <a href="@item.Recipe.Url" target="_blank" class="card-link">@item.Recipe.Url</a>
             </div>
-            @if(item.Recipe.TotalTime > 0 && item.Recipe.TotalTime < 100)
+            @if (item.Recipe.TotalTime > 0 && item.Recipe.TotalTime < 100)
             {
-            <div class="card-body">
-                <h6 class="card-subtitle text-muted">Cook Time: @item.Recipe.TotalTime minutes</h6>
-            </div>
+                <div class="card-body">
+                    <h6 class="card-subtitle text-muted">Cook Time: @item.Recipe.TotalTime minutes</h6>
+                </div>
             }
             <img style="height: 200px; width: 300px; display: block; padding: 10px;" src="@item.Recipe.Image" alt="Card image">
             <div class="card-body">

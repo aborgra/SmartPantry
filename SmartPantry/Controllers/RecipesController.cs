@@ -69,6 +69,35 @@ namespace SmartPantry.Controllers
             return View();
         }
 
+        // POST: Recipes/AddFavorite
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddFavorite(Recipe recipe)
+        {
+            try
+            {
+                var user = await GetUserAsync();
+                var newFavoriteRecipe = new FavoriteRecipe()
+                {
+                    Label = recipe.Label,
+                    Image = recipe.Image,
+                    Url = recipe.Url,
+                    Calories = recipe.Calories,
+                    Ingredients = recipe.Ingredients.ToString(),
+                    Nutrients = recipe.TotalNutrients.ToString()
+                };
+
+               
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
         // GET: Recipes/Details/5
         public ActionResult Details(int id)
         {
@@ -143,5 +172,8 @@ namespace SmartPantry.Controllers
                 return View();
             }
         }
+
+        private async Task<ApplicationUser> GetUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
+
     }
 }

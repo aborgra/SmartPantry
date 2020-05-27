@@ -22,6 +22,8 @@ namespace SmartPantry.Data
         public DbSet<GroceryList> GroceryLists { get; set; }
         public DbSet<GroceryListFood> GroceryListFoods { get; set; }
         public DbSet<QuantityUnit> QuantityUnits { get; set; }
+        public DbSet<FavoriteRecipe> FavoriteRecipes { get; set; }
+        public DbSet<UserFavoriteRecipe> UserFavoriteRecipes { get; set; }
 
 
 

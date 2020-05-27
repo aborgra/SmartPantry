@@ -14,6 +14,12 @@
     <Compile Remove="Migrations\20200524001857_AddQuantityUnitModel.Designer.cs" />
     <Compile Remove="Migrations\20200525231936_QUNull.cs" />
     <Compile Remove="Migrations\20200525231936_QUNull.Designer.cs" />
+    <Compile Remove="Migrations\20200527211048_FavoriteRecipes.cs" />
+    <Compile Remove="Migrations\20200527211048_FavoriteRecipes.Designer.cs" />
+    <Compile Remove="Migrations\20200527211615_FavoriteRecipes.cs" />
+    <Compile Remove="Migrations\20200527211615_FavoriteRecipes.Designer.cs" />
+    <Compile Remove="Migrations\20200527214310_FavoriteRecipe.cs" />
+    <Compile Remove="Migrations\20200527214310_FavoriteRecipe.Designer.cs" />
   </ItemGroup>
 
 
