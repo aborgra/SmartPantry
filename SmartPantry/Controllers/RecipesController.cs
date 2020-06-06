@@ -213,26 +213,25 @@ namespace SmartPantry.Controllers
             }
         }
 
-        // GET: Recipes/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
         // POST: Recipes/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
 
-                return RedirectToAction(nameof(Index));
+                var recipe = await _context.UserFavoriteRecipes.Include(ufr => ufr.FavoriteRecipe).FirstOrDefaultAsync(ufr => ufr.Id == id);
+
+                _context.UserFavoriteRecipes.Remove(recipe);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Favorites));
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Favorites));
             }
         }
 

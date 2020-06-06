@@ -29,7 +29,7 @@
             <img style="height: 200px; width: 300px; display: block; padding: 10px;" src="@item.Image" alt="Card image">
             
             <div class="card-footer text-muted">
-                @using (Html.BeginForm("DeleteSuggested", "GroceryList"))
+                @using (Html.BeginForm("Delete", "Recipes"))
                 {
                     <div class="deleteButton">
                         <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
