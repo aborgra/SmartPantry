@@ -81,17 +81,31 @@ namespace SmartPantry.Controllers
                     .Where(ufr => ufr.UserId == user.Id)
                     .Include(fr => fr.FavoriteRecipe)
                     .ToListAsync();
-
                 var recipes = new List<FavoriteRecipe>();
 
-                foreach (var item in favRecipes)
+                if(q != null)
                 {
-                    recipes.Add(item.FavoriteRecipe);
+                    foreach (var item in favRecipes)
+                        {
+                            if (item.FavoriteRecipe.Label.ToUpper().Contains(q.ToUpper()))
+                            {
+                                recipes.Add(item.FavoriteRecipe);
+                            }
+                        }
+
+                    return View(recipes);
                 }
-
-
-
+                    
+                foreach (var item in favRecipes)
+                    {
+                        recipes.Add(item.FavoriteRecipe);
+                    }
+                    
                 return View(recipes);
+
+
+
+
 
             }
             catch
