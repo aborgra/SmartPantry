@@ -103,9 +103,6 @@ namespace SmartPantry.Controllers
                 return View(recipes);
 
 
-
-
-
             }
             catch
             {
@@ -122,6 +119,17 @@ namespace SmartPantry.Controllers
             try
             {
                 var user = await GetUserAsync();
+                var userFavoriteRecipes = await _context.UserFavoriteRecipes
+                    .Where(ufr => ufr.UserId == user.Id)
+                    .Include(fr => fr.FavoriteRecipe)
+                    .ToListAsync();
+
+                var matchingRecipe = userFavoriteRecipes.FirstOrDefault(ufr => ufr.FavoriteRecipe.Label == label);
+
+                if(matchingRecipe == null)
+                {
+
+
                 var newFavoriteRecipe = new FavoriteRecipe()
                 {
                     Label = label,
@@ -141,6 +149,7 @@ namespace SmartPantry.Controllers
                 _context.UserFavoriteRecipes.Add(newUserFavRecipe);
                 await _context.SaveChangesAsync();
 
+                }
 
 
                 return RedirectToAction(nameof(Favorites));
