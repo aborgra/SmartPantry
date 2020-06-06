@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SmartPantry.Models.FavoriteRecipe>
+
+@{
+    ViewData["Title"] = "Favorites";
+}
+
+<h1>Recipes</h1>
+
+
+<div class="cardContainer">
+    @foreach (var item in Model)
+    {
+
+
+        <div class="card mb-3 recipeCard">
+            <div class="card-header">
+                <h3>@item.Label</h3>
+               
+            </div>
+            <div class="card-body">
+                <a href="@item.Url" target="_blank" class="card-link">@item.Url</a>
+            </div>
+           
+            <img style="height: 200px; width: 300px; display: block; padding: 10px;" src="@item.Image" alt="Card image">
+            
+            <div class="card-footer text-muted">
+                @using (Html.BeginForm("DeleteSuggested", "GroceryList"))
+                {
+                    <div class="deleteButton">
+                        <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                        <input type="image" src="~/icons/trash.svg" />
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
+</div>

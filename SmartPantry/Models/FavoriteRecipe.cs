@@ -11,8 +11,5 @@ namespace SmartPantry.Models
         public string Label { get; set; }
         public string Image { get; set; }
         public string Url { get; set; }
-        public string Ingredients { get; set; }
-        public double? Calories { get; set; }
-        public string Nutrients { get; set; }
     }
 }

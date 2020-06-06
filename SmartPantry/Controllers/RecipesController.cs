@@ -9,9 +9,11 @@ using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SmartPantry.Data;
 using SmartPantry.Models;
+using SmartPantry.Models.ViewModels;
 
 namespace SmartPantry.Controllers
 {
@@ -32,8 +34,8 @@ namespace SmartPantry.Controllers
 
             var apiId = configuration["RecipeAPIIdentifier"];
             var apiKey = configuration["RecipeAPIKey"];
-
-            var uri = $"https://api.edamam.com/search?q={query}&to=50&app_id={apiId}&app_key={apiKey}";
+            var uri = $"https://api.edamam.com/search?q={query}&to=50&app_id=824953da&app_key=231a6fa597253d411d38714f22311a5b";
+            //var uri = $"https://api.edamam.com/search?q={query}&to=50&app_id={apiId}&app_key={apiKey}";
             var client = new HttpClient();
 
             // Set request header to accept JSON
@@ -69,27 +71,66 @@ namespace SmartPantry.Controllers
             return View();
         }
 
+        // Get: Recipes/Favorites
+        public async Task<ActionResult> Favorites(string q)
+        {
+            try
+            {
+                var user = await GetUserAsync();
+                var favRecipes = await _context.UserFavoriteRecipes
+                    .Where(ufr => ufr.UserId == user.Id)
+                    .Include(fr => fr.FavoriteRecipe)
+                    .ToListAsync();
+
+                var recipes = new List<FavoriteRecipe>();
+
+                foreach (var item in favRecipes)
+                {
+                    recipes.Add(item.FavoriteRecipe);
+                }
+
+
+
+                return View(recipes);
+
+            }
+            catch
+            {
+                return View();
+            }
+
+        }
+
         // POST: Recipes/AddFavorite
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddFavorite(Recipe recipe)
+        public async Task<ActionResult> AddFavorite(string label, string url, string image)
         {
             try
             {
                 var user = await GetUserAsync();
                 var newFavoriteRecipe = new FavoriteRecipe()
                 {
-                    Label = recipe.Label,
-                    Image = recipe.Image,
-                    Url = recipe.Url,
-                    Calories = recipe.Calories,
-                    Ingredients = recipe.Ingredients.ToString(),
-                    Nutrients = recipe.TotalNutrients.ToString()
+                    Label = label,
+                    Image = image,
+                    Url = url
                 };
 
-               
+                _context.FavoriteRecipes.Add(newFavoriteRecipe);
+                await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
+                var newUserFavRecipe = new UserFavoriteRecipe()
+                {
+                    UserId = user.Id,
+                    FavoriteRecipeId = newFavoriteRecipe.Id
+                };
+
+                _context.UserFavoriteRecipes.Add(newUserFavRecipe);
+                await _context.SaveChangesAsync();
+
+
+
+                return RedirectToAction(nameof(Favorites));
             }
             catch
             {

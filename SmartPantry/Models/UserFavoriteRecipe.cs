@@ -10,5 +10,6 @@ namespace SmartPantry.Models
         public int Id { get; set; }
         public string UserId { get; set; }
         public int FavoriteRecipeId { get; set; }
+        public FavoriteRecipe FavoriteRecipe { get; set; }
     }
 }
