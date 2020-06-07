@@ -4,14 +4,19 @@
     ViewData["Title"] = "Favorites";
 }
 
-<div>
-<h1>Favorite Recipes</h1>
+    <div>
+        <h1>Favorite Recipes</h1>
 
-    <form asp-controller="Recipes" asp-action="Favorites" class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search Recipes" name="q">
-        <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-    </form>
-</div>
+        <div class="favoritesSearchBar">
+        <form asp-controller="Recipes" asp-action="Favorites" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search Recipes" name="q">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <form asp-controller="Recipes" asp-action="Favorites" class="form-inline my-2 my-lg-0">
+            <input type="submit" value="Show All" class="btn btn-primary indexOptions" />
+        </form>
+        </div>
+    </div>
 <div class="cardContainer">
     @foreach (var item in Model)
     {
