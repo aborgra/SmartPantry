@@ -1,0 +1,48 @@
+﻿@model IEnumerable<SmartPantry.Models.FavoriteRecipe>
+
+@{
+    ViewData["Title"] = "Favorites";
+}
+
+    <div>
+        <h1>Favorite Recipes</h1>
+
+        <div class="favoritesSearchBar">
+        <form asp-controller="Recipes" asp-action="Favorites" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search Recipes" name="q">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <form asp-controller="Recipes" asp-action="Favorites" class="form-inline my-2 my-lg-0">
+            <input type="submit" value="Show All" class="btn btn-primary indexOptions" />
+        </form>
+        </div>
+    </div>
+<div class="cardContainer">
+    @foreach (var item in Model)
+    {
+
+
+        <div class="card mb-3 recipeCard">
+            <div class="card-header">
+                <h3>@item.Label</h3>
+               
+            </div>
+            <div class="card-body">
+                <a href="@item.Url" target="_blank" class="card-link">@item.Url</a>
+            </div>
+           
+            <img style="height: 200px; width: 300px; display: block; padding: 10px;" src="@item.Image" alt="Card image">
+            
+            <div class="card-footer text-muted">
+                @using (Html.BeginForm("Delete", "Recipes"))
+                {
+                    <div class="deleteButton">
+                        <input asp-for="@item.Id" type="hidden" value="@item.Id" name="id" class="form-control" />
+                        <input type="image" src="~/icons/trash.svg" />
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
+</div>

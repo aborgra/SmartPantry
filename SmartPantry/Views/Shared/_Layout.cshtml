@@ -12,7 +12,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
+            <div class="container-fluid">
                 <img src="~/icons/SmartPantryIcon.png" style="width: 54px;"/>
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Smart Pantry</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -31,20 +31,23 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="GroceryList" asp-action="Index">Grocery List</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Recipes" asp-action="Favorites">Favorite Recipes</a>
+                            </li>
                         }
-                        </ul>
+                    </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
+        <div class="container-fluid">
             &copy; 2020 - Smart Pantry
         </div>
     </footer>

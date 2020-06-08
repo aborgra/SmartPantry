@@ -22,6 +22,8 @@ namespace SmartPantry.Models
 
         [JsonPropertyName("recipe")]
         public Recipe Recipe { get; set; }
+
+        public bool Favorited { get; set; }
     }
 
     public class Recipe

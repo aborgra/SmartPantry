@@ -10,19 +10,47 @@
 <div class="cardContainer">
     @foreach (var item in Model.Hits)
     {
+       
 
         <div class="card mb-3 recipeCard">
-            <div class="card-header">
+            <div class="card-header recipeCardHeader">
                 <h3>@item.Recipe.Label</h3>
-                </div>
+                @if (item.Favorited == true)
+                {
+                    @using (Html.BeginForm("AddFavorite", "Recipes"))
+                    {
+                        <input asp-for="@item.Recipe.Image" type="hidden" value="@item.Recipe.Image" name="image" class="form-control" />
+                        <input asp-for="@item.Recipe.Calories" type="hidden" value="@item.Recipe.Calories" name=" calories" class="form-control" />
+                        <input asp-for="@item.Recipe.Url" type="hidden" value="@item.Recipe.Url" name="url" class="form-control" />
+                        <input asp-for="@item.Recipe.TotalNutrients" type="hidden" value="@item.Recipe.TotalNutrients.ToString()" name=" nutrients" class="form-control" />
+                        <input asp-for="@item.Recipe.Ingredients" type="hidden" value="@item.Recipe.Ingredients.ToString()" name="ingredients" class="form-control" />
+                        <input asp-for="@item.Recipe.Label" type="hidden" value="@item.Recipe.Label" name="label" class="form-control" />
+                        <input type="image" class="favoriteIcon" src="~/icons/redHeart.svg" />
+                    }
+                }
+                else
+                {
+
+                    @using (Html.BeginForm("AddFavorite", "Recipes"))
+                    {
+                        <input asp-for="@item.Recipe.Image" type="hidden" value="@item.Recipe.Image" name="image" class="form-control" />
+                        <input asp-for="@item.Recipe.Calories" type="hidden" value="@item.Recipe.Calories" name=" calories" class="form-control" />
+                        <input asp-for="@item.Recipe.Url" type="hidden" value="@item.Recipe.Url" name="url" class="form-control" />
+                        <input asp-for="@item.Recipe.TotalNutrients" type="hidden" value="@item.Recipe.TotalNutrients.ToString()" name=" nutrients" class="form-control" />
+                        <input asp-for="@item.Recipe.Ingredients" type="hidden" value="@item.Recipe.Ingredients.ToString()" name="ingredients" class="form-control" />
+                        <input asp-for="@item.Recipe.Label" type="hidden" value="@item.Recipe.Label" name="label" class="form-control" />
+                        <input type="image" class="favoriteIcon" src="~/icons/heart.svg" />
+                    }
+                }
+            </div>
             <div class="card-body">
                 <a href="@item.Recipe.Url" target="_blank" class="card-link">@item.Recipe.Url</a>
             </div>
-            @if(item.Recipe.TotalTime > 0 && item.Recipe.TotalTime < 100)
+            @if (item.Recipe.TotalTime > 0 && item.Recipe.TotalTime < 100)
             {
-            <div class="card-body">
-                <h6 class="card-subtitle text-muted">Cook Time: @item.Recipe.TotalTime minutes</h6>
-            </div>
+                <div class="card-body">
+                    <h6 class="card-subtitle text-muted">Cook Time: @item.Recipe.TotalTime minutes</h6>
+                </div>
             }
             <img style="height: 200px; width: 300px; display: block; padding: 10px;" src="@item.Recipe.Image" alt="Card image">
             <div class="card-body">

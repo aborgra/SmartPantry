@@ -9,9 +9,11 @@ using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SmartPantry.Data;
 using SmartPantry.Models;
+using SmartPantry.Models.ViewModels;
 
 namespace SmartPantry.Controllers
 {
@@ -32,7 +34,7 @@ namespace SmartPantry.Controllers
 
             var apiId = configuration["RecipeAPIIdentifier"];
             var apiKey = configuration["RecipeAPIKey"];
-
+            
             var uri = $"https://api.edamam.com/search?q={query}&to=50&app_id={apiId}&app_key={apiKey}";
             var client = new HttpClient();
 
@@ -53,6 +55,24 @@ namespace SmartPantry.Controllers
                 }
                 else
                 {
+                    var user = await GetUserAsync();
+                    var favRecipes = await _context.UserFavoriteRecipes
+                        .Where(ufr => ufr.UserId == user.Id)
+                        .Include(fr => fr.FavoriteRecipe)
+                        .ToListAsync();
+                    var recipes = new List<FavoriteRecipe>();
+                    
+                    foreach (var newRecipe in RecipeData.Hits)
+                    {
+                        foreach (var favRecipe  in favRecipes)
+                        {
+                            if(newRecipe.Recipe.Label == favRecipe.FavoriteRecipe.Label)
+                            {
+                                newRecipe.Favorited = true;
+                            }
+                        }
+                    }
+
                     return View(RecipeData);
 
                 }
@@ -68,6 +88,97 @@ namespace SmartPantry.Controllers
         {
             return View();
         }
+
+        // Get: Recipes/Favorites
+        public async Task<ActionResult> Favorites(string q)
+        {
+            try
+            {
+                var user = await GetUserAsync();
+                var favRecipes = await _context.UserFavoriteRecipes
+                    .Where(ufr => ufr.UserId == user.Id)
+                    .Include(fr => fr.FavoriteRecipe)
+                    .ToListAsync();
+                var recipes = new List<FavoriteRecipe>();
+
+                if(q != null)
+                {
+                    foreach (var item in favRecipes)
+                        {
+                            if (item.FavoriteRecipe.Label.ToUpper().Contains(q.ToUpper()))
+                            {
+                                recipes.Add(item.FavoriteRecipe);
+                            }
+                        }
+
+                    return View(recipes);
+                }
+                    
+                foreach (var item in favRecipes)
+                    {
+                        recipes.Add(item.FavoriteRecipe);
+                    }
+                    
+                return View(recipes);
+
+
+            }
+            catch
+            {
+                return View();
+            }
+
+        }
+
+        // POST: Recipes/AddFavorite
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddFavorite(string label, string url, string image)
+        {
+            try
+            {
+                var user = await GetUserAsync();
+                var userFavoriteRecipes = await _context.UserFavoriteRecipes
+                    .Where(ufr => ufr.UserId == user.Id)
+                    .Include(fr => fr.FavoriteRecipe)
+                    .ToListAsync();
+
+                var matchingRecipe = userFavoriteRecipes.FirstOrDefault(ufr => ufr.FavoriteRecipe.Label == label);
+
+                if(matchingRecipe == null)
+                {
+
+
+                var newFavoriteRecipe = new FavoriteRecipe()
+                {
+                    Label = label,
+                    Image = image,
+                    Url = url
+                };
+
+                _context.FavoriteRecipes.Add(newFavoriteRecipe);
+                await _context.SaveChangesAsync();
+
+                var newUserFavRecipe = new UserFavoriteRecipe()
+                {
+                    UserId = user.Id,
+                    FavoriteRecipeId = newFavoriteRecipe.Id
+                };
+
+                _context.UserFavoriteRecipes.Add(newUserFavRecipe);
+                await _context.SaveChangesAsync();
+
+                }
+
+
+                return RedirectToAction(nameof(Favorites));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
 
         // GET: Recipes/Details/5
         public ActionResult Details(int id)
@@ -121,27 +232,29 @@ namespace SmartPantry.Controllers
             }
         }
 
-        // GET: Recipes/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
         // POST: Recipes/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
 
-                return RedirectToAction(nameof(Index));
+                var recipe = await _context.UserFavoriteRecipes.Include(ufr => ufr.FavoriteRecipe).FirstOrDefaultAsync(ufr => ufr.Id == id);
+
+                _context.UserFavoriteRecipes.Remove(recipe);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Favorites));
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Favorites));
             }
         }
+
+        private async Task<ApplicationUser> GetUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
+
     }
 }

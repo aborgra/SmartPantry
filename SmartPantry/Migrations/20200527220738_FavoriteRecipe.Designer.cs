@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartPantry.Data;
 
 namespace SmartPantry.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200527220738_FavoriteRecipe")]
+    partial class FavoriteRecipe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,7 +231,7 @@ namespace SmartPantry.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "20f594c3-043e-4dd7-8efe-755a64ce44f7",
+                            ConcurrencyStamp = "32ec546a-ec95-476d-a021-9ce11d1a454a",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -237,7 +239,7 @@ namespace SmartPantry.Migrations
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
                             PantryId = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAEJb/aXwLukYleI6CMGPcVxhn68xCxJH2VbO/FSZGJI+Ac2NRoORcdzn84k0cTZhbcQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAXzihic/Y1xC+Hmew3IqAREYy7T76wqSOTmL7lH2YwpsOPg3MBnqXjUnUykQ88qAA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -329,10 +331,19 @@ namespace SmartPantry.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<double?>("Calories")
+                        .HasColumnType("float");
+
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Ingredients")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Label")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nutrients")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
