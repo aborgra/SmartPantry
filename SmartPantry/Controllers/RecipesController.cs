@@ -34,8 +34,8 @@ namespace SmartPantry.Controllers
 
             var apiId = configuration["RecipeAPIIdentifier"];
             var apiKey = configuration["RecipeAPIKey"];
-            var uri = $"https://api.edamam.com/search?q={query}&to=50&app_id=824953da&app_key=231a6fa597253d411d38714f22311a5b";
-            //var uri = $"https://api.edamam.com/search?q={query}&to=50&app_id={apiId}&app_key={apiKey}";
+            
+            var uri = $"https://api.edamam.com/search?q={query}&to=50&app_id={apiId}&app_key={apiKey}";
             var client = new HttpClient();
 
             // Set request header to accept JSON
@@ -55,6 +55,24 @@ namespace SmartPantry.Controllers
                 }
                 else
                 {
+                    var user = await GetUserAsync();
+                    var favRecipes = await _context.UserFavoriteRecipes
+                        .Where(ufr => ufr.UserId == user.Id)
+                        .Include(fr => fr.FavoriteRecipe)
+                        .ToListAsync();
+                    var recipes = new List<FavoriteRecipe>();
+                    
+                    foreach (var newRecipe in RecipeData.Hits)
+                    {
+                        foreach (var favRecipe  in favRecipes)
+                        {
+                            if(newRecipe.Recipe.Label == favRecipe.FavoriteRecipe.Label)
+                            {
+                                newRecipe.Favorited = true;
+                            }
+                        }
+                    }
+
                     return View(RecipeData);
 
                 }
